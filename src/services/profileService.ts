@@ -6,6 +6,11 @@ export const getProfile = async () => {
   return response.data;
 };
 
+export const getCurrentUser = async (): Promise<User> => {
+  const response = await api.get<User>('/profile/me');
+  return response.data;
+};
+
 export const updateProfile = async (data: ProfileUpdateRequest) => {
   const response = await api.put<User>('/profile', data);
   return response.data;

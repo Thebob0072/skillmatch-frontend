@@ -15,11 +15,11 @@ i18n
     },
 
     backend: {
-      loadPath: '/locales/{{lng}}/{{ns}}.json',
+      loadPath: '/locales/{{lng}}/translation.json',
     },
 
-    ns: ['common', 'auth', 'profile', 'booking', 'messages'],
-    defaultNS: 'common',
+    ns: ['translation'],
+    defaultNS: 'translation',
   });
 
 export default i18n;

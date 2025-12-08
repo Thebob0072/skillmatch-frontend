@@ -2,7 +2,7 @@ import api from './api';
 import type { Provider, SearchParams, PaginatedResponse } from '../types';
 
 export const searchProviders = async (params: SearchParams) => {
-  const response = await api.get<PaginatedResponse<Provider>>('/browse/providers', { params });
+  const response = await api.get<PaginatedResponse<Provider>>('/browse/search', { params });
   return response.data;
 };
 

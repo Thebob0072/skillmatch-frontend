@@ -2,12 +2,12 @@ import api from './api';
 import type { AuthResponse, LoginRequest, RegisterRequest, GoogleAuthRequest } from '../types';
 
 export const login = async (credentials: LoginRequest): Promise<AuthResponse> => {
-  const response = await api.post<AuthResponse>('/auth/login', credentials);
+  const response = await api.post<AuthResponse>('/login', credentials);
   return response.data;
 };
 
 export const register = async (data: RegisterRequest): Promise<AuthResponse> => {
-  const response = await api.post<AuthResponse>('/auth/register', data);
+  const response = await api.post<AuthResponse>('/register', data);
   return response.data;
 };
 

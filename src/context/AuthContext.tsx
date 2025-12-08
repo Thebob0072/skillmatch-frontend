@@ -14,6 +14,9 @@ interface AuthContextType {
   isProvider: boolean;
   isClient: boolean;
   isAdmin: boolean;
+  isGod: boolean;
+  isVerified: boolean;
+  needsVerification: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -80,6 +83,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.setItem('user', JSON.stringify(updatedUser));
   };
 
+  const isVerified = user?.verification_status === 'verified' || user?.verification_status === 'approved';
+  const needsVerification = !!user && !isVerified && user?.role !== 'admin' && user?.role !== 'god' && user?.tier_name?.toLowerCase() !== 'god';
+
   const value: AuthContextType = {
     user,
     loading,
@@ -92,6 +98,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isProvider: user?.role === 'provider',
     isClient: user?.role === 'client',
     isAdmin: user?.role === 'admin',
+    isGod: user?.tier_name?.toLowerCase() === 'god' || user?.role === 'god',
+    isVerified,
+    needsVerification,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -5,7 +5,7 @@ export interface User {
   username: string;
   full_name: string | null;
   profile_picture_url: string | null;
-  role: 'client' | 'provider' | 'admin';
+  role: 'client' | 'provider' | 'admin' | 'god';
   tier_id: number | null;
   tier_name: string | null;
   google_id: string | null;
@@ -13,6 +13,7 @@ export interface User {
   date_of_birth: string | null;
   location_province: string | null;
   location_district: string | null;
+  location_sub_district: string | null;
   latitude: number | null;
   longitude: number | null;
   bio: string | null;
@@ -20,6 +21,7 @@ export interface User {
   is_email_verified: boolean;
   is_age_verified: boolean;
   is_profile_complete: boolean;
+  verification_status?: 'unverified' | 'pending' | 'verified' | 'approved' | 'rejected';
   created_at: string;
   updated_at: string;
 }
@@ -41,11 +43,11 @@ export interface RegisterRequest {
   full_name?: string;
   role: 'client' | 'provider';
   language_preference?: 'th' | 'en' | 'zh';
+  birthdate?: string;
 }
 
 export interface GoogleAuthRequest {
-  token: string;
-  role: 'client' | 'provider';
+  code: string;
 }
 
 // Provider Types
@@ -58,6 +60,7 @@ export interface Provider {
   tier_name: string | null;
   location_province: string | null;
   location_district: string | null;
+  location_sub_district: string | null;
   latitude: number | null;
   longitude: number | null;
   bio: string | null;
@@ -385,11 +388,14 @@ export interface SearchParams extends PaginationParams {
   category_id?: number;
   province?: string;
   district?: string;
+  sub_district?: string;
   latitude?: number;
   longitude?: number;
   radius_km?: number;
   min_rating?: number;
   tier_id?: number;
+  service_type?: 'Incall' | 'Outcall' | 'Both';
+  languages?: string; // Comma-separated language codes: 'th,en,zh'
   sort_by?: 'rating' | 'distance' | 'price' | 'reviews';
   sort_order?: 'asc' | 'desc';
 }
@@ -416,6 +422,7 @@ export interface ProfileUpdateRequest {
   bio?: string;
   location_province?: string;
   location_district?: string;
+  location_sub_district?: string;
   latitude?: number;
   longitude?: number;
   language_preference?: 'th' | 'en' | 'zh';
@@ -446,4 +453,201 @@ export interface Tier {
   analytics_access: boolean;
   custom_badge: boolean;
   created_at: string;
+}
+
+// ============================================
+// FINANCIAL SYSTEM TYPES
+// ============================================
+
+// Transaction Types
+export type TransactionType = 
+  | 'booking_payment'
+  | 'provider_earning'
+  | 'withdrawal'
+  | 'withdrawal_fee'
+  | 'refund'
+  | 'adjustment';
+
+export type TransactionStatus = 
+  | 'pending'
+  | 'processing'
+  | 'completed'
+  | 'failed'
+  | 'cancelled';
+
+// Withdrawal Types
+export type WithdrawalStatus = 
+  | 'pending'
+  | 'approved'
+  | 'rejected'
+  | 'processing'
+  | 'completed'
+  | 'failed';
+
+// Account Types
+export type AccountType = 'savings' | 'current';
+
+// Bank Account Interface
+export interface BankAccount {
+  bank_account_id: number;
+  user_id: number;
+  bank_name: string;
+  bank_code: string;
+  account_number: string;
+  account_name: string;
+  account_type: AccountType;
+  is_verified: boolean;
+  is_default: boolean;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+  verified_at?: string;
+  verified_by?: number;
+}
+
+// Wallet Interface
+export interface Wallet {
+  wallet_id: number;
+  user_id: number;
+  available_balance: number;
+  pending_balance: number;
+  total_earned: number;
+  total_withdrawn: number;
+  currency: string;
+  created_at: string;
+  updated_at: string;
+}
+
+// Transaction Interface
+export interface FinancialTransaction {
+  transaction_id: number;
+  wallet_id: number;
+  user_id: number;
+  booking_id?: number;
+  withdrawal_id?: number;
+  type: TransactionType;
+  amount: number;
+  fee_amount?: number;
+  commission_amount?: number;
+  net_amount: number;
+  balance_before: number;
+  balance_after: number;
+  status: TransactionStatus;
+  description?: string;
+  reference_number?: string;
+  created_at: string;
+  completed_at?: string;
+  metadata?: Record<string, any>;
+}
+
+// Withdrawal Interface
+export interface FinancialWithdrawal {
+  withdrawal_id: number;
+  user_id: number;
+  wallet_id: number;
+  bank_account_id: number;
+  requested_amount: number;
+  fee: number;
+  net_amount: number;
+  status: WithdrawalStatus;
+  bank_account?: BankAccount;
+  requested_at: string;
+  approved_at?: string;
+  approved_by?: number;
+  rejected_at?: string;
+  rejected_by?: number;
+  rejection_reason?: string;
+  completed_at?: string;
+  transfer_reference?: string;
+  transfer_slip_url?: string;
+  transfer_slip_masked_url?: string;
+  notes?: string;
+}
+
+// Wallet Summary Interface
+export interface WalletSummary {
+  wallet: Wallet;
+  recent_transactions: FinancialTransaction[];
+  pending_withdrawals: FinancialWithdrawal[];
+  stats: {
+    total_bookings: number;
+    completed_bookings: number;
+    pending_amount: number;
+    available_amount: number;
+  };
+}
+
+// Financial Summary (GOD Dashboard)
+export interface FinancialSummary {
+  today_revenue: number;
+  today_commission: number;
+  month_revenue: number;
+  month_commission: number;
+  pending_withdrawals_count: number;
+  pending_withdrawals_amount: number;
+  active_providers: number;
+  total_transactions_today: number;
+  total_stripe_fees: number;
+  net_platform_earnings: number;
+}
+
+// Request DTOs
+export interface AddBankAccountRequest {
+  bank_name: string;
+  bank_code: string;
+  account_number: string;
+  account_name: string;
+  account_type: AccountType;
+  is_default?: boolean;
+}
+
+export interface RequestWithdrawalRequest {
+  bank_account_id: number;
+  amount: number;
+  notes?: string;
+}
+
+export interface ProcessWithdrawalRequest {
+  action: 'approve' | 'reject' | 'complete';
+  rejection_reason?: string;
+  transfer_reference?: string;
+  transfer_slip_url?: string;
+  notes?: string;
+}
+
+// Response DTOs
+export interface BankAccountResponse {
+  success: boolean;
+  data: BankAccount;
+  message?: string;
+}
+
+export interface WalletResponse {
+  success: boolean;
+  data: WalletSummary;
+  message?: string;
+}
+
+export interface WithdrawalResponse {
+  success: boolean;
+  data: FinancialWithdrawal;
+  message?: string;
+}
+
+export interface TransactionHistoryResponse {
+  success: boolean;
+  data: {
+    items: FinancialTransaction[];
+    total: number;
+    page: number;
+    limit: number;
+    has_more: boolean;
+  };
+  message?: string;
+}
+
+export interface FinancialSummaryResponse {
+  success: boolean;
+  data: FinancialSummary;
+  message?: string;
 }
