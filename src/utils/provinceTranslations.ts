@@ -1,7 +1,4 @@
-/**
- * Province Translations (จังหวัดทั้ง 77 จังหวัด)
- * ใช้สำหรับแปลชื่อจังหวัดจากภาษาอังกฤษเป็นภาษาไทย
- */
+
 
 export const provinceTranslations: Record<string, { th: string; en: string }> = {
   // กรุงเทพและปริมณฑล
