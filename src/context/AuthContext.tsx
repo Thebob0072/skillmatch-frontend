@@ -40,7 +40,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           const userData: User = JSON.parse(storedUser);
           setUser(userData);
         } catch (error) {
-          console.error('Failed to parse stored user:', error);
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Failed to parse stored user');
+          }
           localStorage.removeItem('authToken');
           localStorage.removeItem('user');
         }
@@ -83,8 +85,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.setItem('user', JSON.stringify(updatedUser));
   };
 
+  // ✅ ตรวจสอบ role อย่างถูกต้อง
   const isVerified = user?.verification_status === 'verified' || user?.verification_status === 'approved';
-  const needsVerification = !!user && !isVerified && user?.role !== 'admin' && user?.role !== 'god' && user?.tier_name?.toLowerCase() !== 'god';
+  const isGod = (user && 'user_type' in user && user.user_type === 'god') || user?.tier_name?.toLowerCase() === 'god';
+  const isAdmin = (user && 'user_type' in user && user.user_type === 'admin') || (user && 'is_admin' in user && user.is_admin === true);
+  const needsVerification = !!user && !isVerified && !isGod && !isAdmin;
 
   const value: AuthContextType = {
     user,
@@ -97,8 +102,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isAuthenticated: !!user,
     isProvider: user?.role === 'provider',
     isClient: user?.role === 'client',
-    isAdmin: user?.role === 'admin',
-    isGod: user?.tier_name?.toLowerCase() === 'god' || user?.role === 'god',
+    isAdmin,
+    isGod,
     isVerified,
     needsVerification,
   };

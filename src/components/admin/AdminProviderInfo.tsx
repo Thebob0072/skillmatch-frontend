@@ -44,25 +44,17 @@ export const AdminProviderInfo: React.FC<AdminProviderInfoProps> = ({ providerId
         const response = await api.get(`/admin/providers/${providerId}/queue-info`);
         setQueueInfo(response.data);
         setError(null);
-      } catch (err: any) {
-        console.error('Failed to fetch provider queue info:', err);
-        // Fallback to mock data for development
-        setQueueInfo({
-          provider_id: providerId,
-          active_bookings: Math.floor(Math.random() * 3),
-          pending_bookings: Math.floor(Math.random() * 5),
-          total_queue: Math.floor(Math.random() * 8),
-          current_location: {
-            latitude: 13.7563 + (Math.random() - 0.5) * 0.1,
-            longitude: 100.5018 + (Math.random() - 0.5) * 0.1,
-            province: 'Bangkok',
-            district: 'Sukhumvit',
-            last_updated: new Date().toISOString(),
-          },
-          is_online: Math.random() > 0.3,
-          last_active: new Date(Date.now() - Math.random() * 3600000).toISOString(),
-        });
-        setError(null);
+      } catch (err: unknown) {
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Failed to fetch provider queue info');
+        }
+        let errorMsg = 'Failed to load provider information';
+        if (err && typeof err === 'object' && 'response' in err && err.response && typeof err.response === 'object' && 'data' in err.response) {
+          const data = err.response as { error?: string };
+          errorMsg = data.error || errorMsg;
+        }
+        setError(errorMsg);
+        setQueueInfo(null);
       } finally {
         setLoading(false);
       }

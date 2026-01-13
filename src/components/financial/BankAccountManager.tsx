@@ -73,7 +73,7 @@ const BankAccountManager: React.FC = () => {
         is_default: false,
       });
       setShowAddForm(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setFormError(err.message || t('financial.bank.error_add'));
     } finally {
       setFormLoading(false);
@@ -85,7 +85,7 @@ const BankAccountManager: React.FC = () => {
 
     try {
       await deleteAccount(bankAccountId);
-    } catch (err: any) {
+    } catch (err: unknown) {
       alert(err.message || t('financial.bank.error_delete'));
     }
   };
@@ -93,7 +93,7 @@ const BankAccountManager: React.FC = () => {
   const handleSetDefault = async (bankAccountId: number) => {
     try {
       await setDefaultAccount(bankAccountId);
-    } catch (err: any) {
+    } catch (err: unknown) {
       alert(err.message || t('financial.bank.error_set_default'));
     }
   };
@@ -110,10 +110,10 @@ const BankAccountManager: React.FC = () => {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">{t('financial.bank.title')}</h2>
+        <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-pink-400 to-purple-500">{t('financial.bank.title')}</h2>
         <button
           onClick={() => setShowAddForm(!showAddForm)}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-glow-purple transition-all"
         >
           {showAddForm ? t('financial.bank.cancel') : `+ ${t('financial.bank.add_account')}`}
         </button>
@@ -121,34 +121,34 @@ const BankAccountManager: React.FC = () => {
 
       {/* Error Display */}
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-600">{error}</p>
+        <div className="glass-dark border border-red-500/30 rounded-lg p-4 shadow-glow-red">
+          <p className="text-red-400">{error}</p>
         </div>
       )}
 
       {/* Add Account Form */}
       {showAddForm && (
-        <div className="bg-white rounded-xl shadow-md p-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('financial.bank.add_account')}</h3>
+        <div className="glass-dark rounded-xl border border-purple-500/30 shadow-glow-purple p-6">
+          <h3 className="text-lg font-semibold text-white mb-4">{t('financial.bank.add_account')}</h3>
           
           {formError && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
-              <p className="text-red-600 text-sm">{formError}</p>
+            <div className="glass-dark border border-red-500/30 rounded-lg p-3 mb-4 shadow-glow-red">
+              <p className="text-red-400 text-sm">{formError}</p>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Bank Selection */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('financial.bank.bank_name')} <span className="text-red-500">*</span>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                {t('financial.bank.bank_name')} <span className="text-red-400">*</span>
               </label>
               <select
                 name="bank_code"
                 value={formData.bank_code}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 bg-gray-800 border border-purple-500/30 text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
               >
                 <option value="">{t('financial.bank.select_bank')}</option>
                 {THAI_BANKS.map(bank => (
@@ -161,8 +161,8 @@ const BankAccountManager: React.FC = () => {
 
             {/* Account Number */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('financial.bank.account_number')} <span className="text-red-500">*</span>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                {t('financial.bank.account_number')} <span className="text-red-400">*</span>
               </label>
               <input
                 type="text"
@@ -173,15 +173,15 @@ const BankAccountManager: React.FC = () => {
                 maxLength={12}
                 pattern="\d{10,12}"
                 placeholder="1234567890"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 bg-gray-800 border border-purple-500/30 text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 placeholder-gray-500"
               />
-              <p className="text-xs text-gray-500 mt-1">{t('financial.bank.account_digits')}</p>
+              <p className="text-xs text-gray-400 mt-1">{t('financial.bank.account_digits')}</p>
             </div>
 
             {/* Account Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('financial.bank.account_name')} <span className="text-red-500">*</span>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                {t('financial.bank.account_name')} <span className="text-red-400">*</span>
               </label>
               <input
                 type="text"
@@ -190,21 +190,21 @@ const BankAccountManager: React.FC = () => {
                 onChange={handleInputChange}
                 required
                 placeholder="นาย สมชาย ใจดี"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 bg-gray-800 border border-purple-500/30 text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 placeholder-gray-500"
               />
             </div>
 
             {/* Account Type */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('financial.bank.account_type')} <span className="text-red-500">*</span>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                {t('financial.bank.account_type')} <span className="text-red-400">*</span>
               </label>
               <select
                 name="account_type"
                 value={formData.account_type}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 bg-gray-800 border border-purple-500/30 text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
               >
                 <option value="savings">{t('financial.bank.savings')}</option>
                 <option value="current">{t('financial.bank.current')}</option>
@@ -218,9 +218,9 @@ const BankAccountManager: React.FC = () => {
                 name="is_default"
                 checked={formData.is_default}
                 onChange={handleInputChange}
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                className="w-4 h-4 text-purple-600 bg-gray-800 border-purple-500/30 rounded focus:ring-purple-500"
               />
-              <label className="ml-2 text-sm text-gray-700">
+              <label className="ml-2 text-sm text-gray-300">
                 {t('financial.bank.set_default')}
               </label>
             </div>
@@ -229,7 +229,7 @@ const BankAccountManager: React.FC = () => {
             <button
               type="submit"
               disabled={formLoading}
-              className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-glow-purple transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {formLoading ? t('financial.bank.saving') : t('financial.bank.save')}
             </button>
@@ -240,14 +240,14 @@ const BankAccountManager: React.FC = () => {
       {/* Bank Accounts List */}
       <div className="space-y-4">
         {accounts.length === 0 ? (
-          <div className="bg-gray-50 rounded-xl p-8 text-center">
+          <div className="glass-dark rounded-xl border border-purple-500/30 p-8 text-center shadow-glow-purple">
             <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
             </svg>
-            <p className="text-gray-500">{t('financial.bank.no_accounts')}</p>
+            <p className="text-gray-300">{t('financial.bank.no_accounts')}</p>
             <button
               onClick={() => setShowAddForm(true)}
-              className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="mt-4 px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-glow-purple transition-all"
             >
               {t('financial.bank.add_first')}
             </button>
@@ -259,13 +259,13 @@ const BankAccountManager: React.FC = () => {
             return (
               <div
                 key={account.bank_account_id}
-                className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow"
+                className="glass-dark rounded-xl border border-purple-500/30 shadow-glow-purple p-6 hover:shadow-glow-pink transition-all"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4 flex-1">
                     {/* Bank Icon */}
                     <div
-                      className="w-16 h-16 rounded-lg flex items-center justify-center text-white font-bold text-xl"
+                      className="w-16 h-16 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg"
                       style={{ backgroundColor: bank?.color || '#6B7280' }}
                     >
                       {bank?.code.substring(0, 2) || 'BK'}
@@ -274,32 +274,32 @@ const BankAccountManager: React.FC = () => {
                     {/* Account Info */}
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="text-lg font-semibold text-gray-800">
+                        <h3 className="text-lg font-semibold text-white">
                           {account.bank_name}
                         </h3>
                         {account.is_default && (
-                          <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-600 rounded">
+                          <span className="px-2 py-1 text-xs font-medium bg-blue-500/20 text-blue-400 rounded border border-blue-500/30">
                             {t('financial.bank.default_badge')}
                           </span>
                         )}
                         {account.is_verified ? (
-                          <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-600 rounded flex items-center gap-1">
+                          <span className="px-2 py-1 text-xs font-medium bg-green-500/20 text-green-400 rounded border border-green-500/30 flex items-center gap-1">
                             <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                             </svg>
                             {t('financial.bank.verified_badge')}
                           </span>
                         ) : (
-                          <span className="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-600 rounded">
+                          <span className="px-2 py-1 text-xs font-medium bg-yellow-500/20 text-yellow-400 rounded border border-yellow-500/30">
                             {t('financial.bank.pending_badge')}
                           </span>
                         )}
                       </div>
-                      <p className="text-gray-600 font-mono text-lg">
+                      <p className="text-gray-300 font-mono text-lg">
                         {account.account_number.replace(/(\d{3})(\d{1})(\d{5})(\d{1})/, '$1-$2-$3-$4')}
                       </p>
-                      <p className="text-sm text-gray-500 mt-1">{account.account_name}</p>
-                      <p className="text-xs text-gray-400 mt-1">
+                      <p className="text-sm text-gray-400 mt-1">{account.account_name}</p>
+                      <p className="text-xs text-gray-500 mt-1">
                         {account.account_type === 'savings' ? t('financial.bank.savings') : t('financial.bank.current')}
                       </p>
                     </div>
@@ -310,14 +310,14 @@ const BankAccountManager: React.FC = () => {
                     {!account.is_default && account.is_verified && (
                       <button
                         onClick={() => handleSetDefault(account.bank_account_id)}
-                        className="px-3 py-1 text-xs text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                        className="px-3 py-1 text-xs text-blue-400 hover:bg-blue-500/20 border border-blue-500/30 rounded transition-all"
                       >
                         {t('financial.bank.set_as_default')}
                       </button>
                     )}
                     <button
                       onClick={() => handleDelete(account.bank_account_id)}
-                      className="px-3 py-1 text-xs text-red-600 hover:bg-red-50 rounded transition-colors"
+                      className="px-3 py-1 text-xs text-red-400 hover:bg-red-500/20 border border-red-500/30 rounded transition-all"
                     >
                       {t('financial.bank.delete')}
                     </button>

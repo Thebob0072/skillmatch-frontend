@@ -1,0 +1,143 @@
+{
+  "booking": {
+    "new_booking": "New Booking",
+    "my_bookings": "My Bookings",
+    "booking_details": "Booking Details",
+    "booking_id": "Booking ID",
+    "provider": "Provider",
+    "client": "Client",
+    "package": "Package",
+    "date": "Date",
+    "time": "Time",
+    "datetime": "Date & Time",
+    "location": "Location",
+    "floor": "Floor",
+    "room": "Room",
+    "open_in_maps": "Open in Google Maps",
+    "details": "Details",
+    "service_flow": "Service Flow",
+    "actions": "Actions",
+    "not_found": "Booking not found",
+    
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "provider_arrived": "Provider Arrived",
+      "in_progress": "In Progress",
+      "completed": "Completed",
+      "funds_released": "Payment Released",
+      "cancelled": "Cancelled",
+      "disputed": "Disputed",
+      "dispute_resolved": "Dispute Resolved"
+    },
+
+    "confirm_cancel": "Are you sure you want to cancel this booking?",
+    "please_provide_reason": "Please provide a cancellation reason",
+    "booking_cancelled": "Booking cancelled successfully",
+    "action_failed": "Action failed",
+
+    "confirm_arrived": "Confirm that you have arrived at the location?",
+    "arrived_confirmed": "Arrival confirmed. Waiting for client confirmation",
+    "confirm_provider_arrived": "Confirm that the provider has arrived?\n\nThe remaining amount will be locked in escrow until service completion",
+    "escrow_locked": "Funds locked in Escrow successfully. Provider can start the service",
+    
+    "completion_notes_prompt": "Please provide service completion notes (optional):",
+    "completion_submitted": "Service completion recorded. Waiting for client confirmation",
+    "confirm_completion": "Confirm that you received the service?\n\nThe remaining payment will be immediately released to the provider",
+    "payment_released": "Payment released to provider successfully",
+
+    "dispute_reason_prompt": "Reason for dispute:",
+    "dispute_description_prompt": "Problem description:",
+    "dispute_submitted": "Dispute submitted successfully. Admin will review within 24-48 hours",
+
+    "i_arrived": "🚗 I Have Arrived",
+    "waiting_client_confirm": "Waiting for client to confirm your arrival",
+    "service_completed": "✅ Service Completed",
+    "waiting_client_confirm_completion": "Waiting for client to confirm service completion",
+    "auto_release_24h": "Funds will be automatically released within 24 hours if no dispute",
+
+    "provider_has_arrived": "Provider Has Arrived!",
+    "please_verify_arrival": "Please verify and confirm the provider's arrival",
+    "confirm_provider_arrived_button": "✅ Confirm Provider Arrived",
+    "service_in_progress": "Service in Progress...",
+    "provider_completed_service": "Provider has completed the service",
+    "please_confirm_or_dispute": "Please confirm or dispute if there's an issue",
+
+    "rate_service": "Rate the Service",
+    "review": "Review",
+    "review_placeholder": "Share your thoughts about the service...",
+    "confirm_and_pay": "✅ Confirm & Pay",
+    "dispute": "⚠️ Dispute",
+    
+    "payment_received": "You Have Received Payment!",
+    "added_to_wallet": "Added to your wallet",
+    "completed_successfully": "Completed Successfully!",
+    "thank_you": "Thank you for using our service",
+    
+    "dispute_under_review": "Dispute Under Review",
+    "admin_will_review": "Admin will review and decide within 24-48 hours"
+  },
+
+  "payment": {
+    "payment_info": "Payment Information",
+    "total_amount": "Total Amount",
+    "deposit_10": "Deposit (10%)",
+    "platform_fee": "Platform Fee",
+    "platform_fee_rate": "8% Fee",
+    "provider_receives": "Provider Receives",
+    "after_fee": "After Fee",
+    "wallet": "Wallet",
+    "wallet_balance": "Wallet Balance",
+    "add_to_wallet": "Add to Wallet",
+    "withdraw_from_wallet": "Withdraw from Wallet",
+    "wallet_transaction": "Wallet Transaction",
+    "transaction_history": "Transaction History",
+    "deposit_payment": "Deposit Payment",
+    "deposit_subtitle": "Please pay 10% deposit to confirm your booking",
+    "remaining_after_service": "Remaining (After Service)",
+    "remaining": "Remaining",
+    "deposit_paid": "Deposit Paid",
+    "locked_in_escrow": "Locked in Escrow",
+    "escrow_amount": "Escrow Amount",
+    "deposit_not_paid": "Deposit Not Paid Yet",
+    "pay_deposit": "💰 Pay Deposit",
+
+    "scan_qr_to_pay": "Scan QR Code to Pay",
+    "amount_to_pay": "Amount to Pay",
+    "qr_expires_in": "QR Code expires in",
+    "qr_expired": "⏰ QR Code Expired",
+    "generate_new_qr": "🔄 Generate New QR Code",
+    
+    "instructions": "Payment Instructions",
+    "step1": "Open your Mobile Banking app or PromptPay-enabled app",
+    "step2": "Select 'Scan QR'",
+    "step3": "Scan the QR Code above",
+    "step4": "Verify the amount matches the specified amount",
+    "step5": "Confirm the transfer",
+    "step6": "Wait for automatic verification (5-10 seconds)",
+
+    "deposit_paid_success": "✅ Deposit paid successfully!",
+    
+    "why_deposit": "Why Deposit Required?",
+    "deposit_reason_1": "Ensures provider commitment and seriousness",
+    "deposit_reason_2": "Prevents last-minute cancellations",
+    "deposit_reason_3": "Deposit counts towards the total service fee",
+    "deposit_reason_4": "100% refund if cancelled 24+ hours in advance"
+  },
+
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "retry": "Retry"
+  }
+}

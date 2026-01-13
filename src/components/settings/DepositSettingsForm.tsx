@@ -258,7 +258,7 @@ export const DepositSettingsForm: React.FC = () => {
                         name="refund_policy"
                         value={option.value}
                         checked={formData.refund_policy === option.value}
-                        onChange={e => setFormData({ ...formData, refund_policy: e.target.value as any })}
+                        onChange={e => setFormData({ ...formData, refund_policy: e.target.value as 'refundable' | 'non_refundable' })}
                         className="mt-1 w-4 h-4 text-green-600"
                       />
                       <div>

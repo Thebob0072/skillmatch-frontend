@@ -1,5 +1,5 @@
 // Environment configuration with fallback values
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+export const API_URL = import.meta.env.VITE_API_URL || '/api';
 export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 export const CLOUD_STORAGE_BASE_URL = import.meta.env.VITE_CLOUD_STORAGE_BASE_URL || '';
 export const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '';

@@ -5,6 +5,7 @@ export { Navbar } from './Navbar';
 export { Footer } from './Footer';
 export { LanguageSwitcher } from './LanguageSwitcher';
 export { ProfileDropdown } from './ProfileDropdown';
+export { SEO } from './SEO';
 
 // Financial Components (Provider)
 export { default as WalletDashboard } from './financial/WalletDashboard';

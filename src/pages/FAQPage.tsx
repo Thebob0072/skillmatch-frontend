@@ -109,26 +109,26 @@ export function FAQPage() {
     : faqs.filter(faq => faq.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black py-6 sm:py-8 lg:py-12 px-3 sm:px-4 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-10">
-          <span className="text-5xl mb-4 block">❓</span>
-          <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neon-gold to-neon-pink mb-4">
+        <div className="text-center mb-6 sm:mb-8 lg:mb-10">
+          <span className="text-4xl sm:text-5xl mb-3 sm:mb-4 block">❓</span>
+          <h1 className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neon-gold to-neon-pink mb-3 sm:mb-4 px-4">
             {t('faq.title', 'Frequently Asked Questions')}
           </h1>
-          <p className="text-gray-400">
+          <p className="text-sm sm:text-base text-gray-400 px-4">
             {t('faq.subtitle', 'Find answers to common questions about our platform.')}
           </p>
         </div>
 
         {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-2 mb-8">
+        <div className="flex flex-wrap justify-center gap-2 mb-6 sm:mb-8 px-2">
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all touch-manipulation ${
                 activeCategory === cat.id
                   ? 'bg-neon-pink text-white'
                   : 'bg-gray-800/50 text-gray-400 hover:bg-gray-700/50'
@@ -140,23 +140,23 @@ export function FAQPage() {
         </div>
 
         {/* FAQ List */}
-        <div className="space-y-3">
+        <div className="space-y-2 sm:space-y-3">
           {filteredFaqs.map((faq, index) => (
             <div 
               key={index}
-              className="bg-black/40 rounded-xl border border-gray-800 overflow-hidden"
+              className="bg-black/40 rounded-lg sm:rounded-xl border border-gray-800 overflow-hidden"
             >
               <button
                 onClick={() => setActiveIndex(activeIndex === index ? null : index)}
-                className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-800/30 transition-colors"
+                className="w-full px-4 sm:px-6 py-3 sm:py-4 text-left flex items-center justify-between hover:bg-gray-800/30 transition-colors touch-manipulation"
               >
-                <span className="font-medium text-white pr-4">{faq.question}</span>
-                <span className={`text-neon-pink transition-transform ${activeIndex === index ? 'rotate-180' : ''}`}>
+                <span className="font-medium text-sm sm:text-base text-white pr-3 sm:pr-4">{faq.question}</span>
+                <span className={`text-neon-pink transition-transform flex-shrink-0 ${activeIndex === index ? 'rotate-180' : ''}`}>
                   ▼
                 </span>
               </button>
               {activeIndex === index && (
-                <div className="px-6 pb-4 text-gray-400 border-t border-gray-800/50 pt-4">
+                <div className="px-4 sm:px-6 pb-3 sm:pb-4 text-xs sm:text-sm text-gray-400 border-t border-gray-800/50 pt-3 sm:pt-4">
                   {faq.answer}
                 </div>
               )}
@@ -165,16 +165,16 @@ export function FAQPage() {
         </div>
 
         {/* Still Need Help */}
-        <div className="mt-12 text-center bg-gradient-to-r from-neon-purple/10 to-neon-pink/10 rounded-2xl p-8 border border-neon-purple/20">
-          <h3 className="text-xl font-bold text-white mb-3">
+        <div className="mt-8 sm:mt-10 lg:mt-12 text-center bg-gradient-to-r from-neon-purple/10 to-neon-pink/10 rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 border border-neon-purple/20">
+          <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3">
             {t('faq.still_need_help', "Still have questions?")}
           </h3>
-          <p className="text-gray-400 mb-6">
+          <p className="text-xs sm:text-sm text-gray-400 mb-4 sm:mb-6 px-4">
             {t('faq.contact_us', "Our support team is ready to help you 24/7.")}
           </p>
           <a 
             href="/contact"
-            className="inline-block px-6 py-3 bg-gradient-to-r from-neon-purple to-neon-pink text-white rounded-lg font-bold hover:opacity-90 transition-opacity"
+            className="inline-block px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-neon-purple to-neon-pink text-white rounded-lg font-bold hover:opacity-90 transition-opacity touch-manipulation"
           >
             {t('faq.contact_button', 'Contact Support')}
           </a>

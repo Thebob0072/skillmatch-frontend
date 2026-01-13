@@ -1,6 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import BookingStatusBadge from './BookingStatusBadge';
+import { 
+  translateCategory,
+  translateProvince,
+  formatPrice,
+} from '../utils/translationHelpers';
 
 interface Booking {
   booking_id: number;
@@ -13,6 +18,8 @@ interface Booking {
   total_price: number;
   status: 'pending' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled';
   location?: string;
+  location_province?: string;
+  category_name?: string;
   special_notes?: string;
 }
 
@@ -97,6 +104,14 @@ export const BookingCard: React.FC<BookingCardProps> = ({
           <span className="font-medium">{booking.package_name}</span>
         </div>
 
+        {/* Category */}
+        {booking.category_name && (
+          <div className="flex items-center text-sm">
+            <span className="text-gray-600 w-32">{t('browse.filters.category')}:</span>
+            <span className="font-medium">{translateCategory(booking.category_name, t)}</span>
+          </div>
+        )}
+
         {/* Date */}
         <div className="flex items-center text-sm">
           <span className="text-gray-600 w-32">{t('booking.booking_date')}:</span>
@@ -119,10 +134,18 @@ export const BookingCard: React.FC<BookingCardProps> = ({
           </div>
         )}
 
+        {/* Province */}
+        {booking.location_province && (
+          <div className="flex items-center text-sm">
+            <span className="text-gray-600 w-32">{t('location.province')}:</span>
+            <span className="font-medium">{translateProvince(booking.location_province, t)}</span>
+          </div>
+        )}
+
         {/* Price */}
         <div className="flex items-center text-sm">
           <span className="text-gray-600 w-32">{t('booking.total_price')}:</span>
-          <span className="font-bold text-purple-600">฿{booking.total_price.toLocaleString()}</span>
+          <span className="font-bold text-purple-600">{formatPrice(booking.total_price)}</span>
         </div>
 
         {/* Special Notes */}

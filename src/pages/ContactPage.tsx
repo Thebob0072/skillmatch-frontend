@@ -14,24 +14,26 @@ export function ContactPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // In a real app, this would send to backend
-    console.log('Contact form submitted:', formData);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Contact form submitted');
+    }
     setSubmitted(true);
   };
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black py-12 px-4 flex items-center justify-center">
-        <div className="max-w-md w-full text-center bg-black/50 rounded-2xl p-8 border border-green-500/30">
-          <span className="text-6xl mb-4 block">📬</span>
-          <h2 className="text-2xl font-bold text-green-400 mb-4">
+      <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black py-6 sm:py-8 lg:py-12 px-3 sm:px-4 flex items-center justify-center">
+        <div className="max-w-md w-full text-center bg-black/50 rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-green-500/30">
+          <span className="text-5xl sm:text-6xl mb-4 block">📬</span>
+          <h2 className="text-xl sm:text-2xl font-bold text-green-400 mb-3 sm:mb-4">
             {t('contact_page.success_title', 'Message Sent!')}
           </h2>
-          <p className="text-gray-400 mb-6">
+          <p className="text-sm sm:text-base text-gray-400 mb-4 sm:mb-6">
             {t('contact_page.success_message', "We'll get back to you within 24-48 hours.")}
           </p>
           <a 
             href="/"
-            className="inline-block px-6 py-3 bg-neon-pink text-white rounded-lg font-bold hover:bg-neon-pink/80 transition-colors"
+            className="inline-block px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-neon-pink text-white rounded-lg font-bold hover:bg-neon-pink/80 transition-colors touch-manipulation"
           >
             {t('common.back_home', 'Back to Home')}
           </a>
@@ -41,62 +43,62 @@ export function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black py-6 sm:py-8 lg:py-12 px-3 sm:px-4 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
-          <span className="text-5xl mb-4 block">📧</span>
-          <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple mb-4">
+        <div className="text-center mb-8 sm:mb-12">
+          <span className="text-4xl sm:text-5xl mb-4 block">📧</span>
+          <h1 className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple mb-3 sm:mb-4">
             {t('contact_page.title', 'Contact Us')}
           </h1>
-          <p className="text-gray-400 max-w-xl mx-auto">
+          <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto px-4">
             {t('contact_page.subtitle', "Have a question or need help? We're here for you 24/7.")}
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
           {/* Contact Info */}
-          <div className="space-y-6">
-            <div className="bg-black/40 rounded-2xl p-6 border border-neon-purple/20">
-              <h3 className="text-xl font-bold text-neon-purple mb-4 flex items-center gap-2">
+          <div className="space-y-4 sm:space-y-6">
+            <div className="bg-black/40 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-neon-purple/20">
+              <h3 className="text-lg sm:text-xl font-bold text-neon-purple mb-3 sm:mb-4 flex items-center gap-2">
                 📍 {t('contact_page.office', 'Our Office')}
               </h3>
-              <p className="text-gray-400">
+              <p className="text-sm sm:text-base text-gray-400">
                 Thai Variety Entertainment Co., Ltd.<br />
                 123 Sukhumvit Road, Watthana<br />
                 Bangkok 10110, Thailand
               </p>
             </div>
 
-            <div className="bg-black/40 rounded-2xl p-6 border border-neon-blue/20">
-              <h3 className="text-xl font-bold text-neon-blue mb-4 flex items-center gap-2">
+            <div className="bg-black/40 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-neon-blue/20">
+              <h3 className="text-lg sm:text-xl font-bold text-neon-blue mb-3 sm:mb-4 flex items-center gap-2">
                 📞 {t('contact_page.phone', 'Phone')}
               </h3>
-              <p className="text-gray-400">
+              <p className="text-sm sm:text-base text-gray-400">
                 +66 2 XXX XXXX<br />
                 <span className="text-sm">{t('contact_page.hours', 'Mon-Sun, 24 hours')}</span>
               </p>
             </div>
 
-            <div className="bg-black/40 rounded-2xl p-6 border border-neon-pink/20">
-              <h3 className="text-xl font-bold text-neon-pink mb-4 flex items-center gap-2">
+            <div className="bg-black/40 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-neon-pink/20">
+              <h3 className="text-lg sm:text-xl font-bold text-neon-pink mb-3 sm:mb-4 flex items-center gap-2">
                 ✉️ {t('contact_page.email', 'Email')}
               </h3>
-              <p className="text-gray-400">
+              <p className="text-sm sm:text-base text-gray-400">
                 support@thaivariety.com<br />
                 business@thaivariety.com
               </p>
             </div>
 
-            <div className="bg-black/40 rounded-2xl p-6 border border-neon-gold/20">
-              <h3 className="text-xl font-bold text-neon-gold mb-4 flex items-center gap-2">
+            <div className="bg-black/40 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-neon-gold/20">
+              <h3 className="text-lg sm:text-xl font-bold text-neon-gold mb-3 sm:mb-4 flex items-center gap-2">
                 💬 {t('contact_page.social', 'Social Media')}
               </h3>
-              <div className="flex gap-4">
-                <a href="#" className="text-3xl hover:scale-110 transition-transform">📘</a>
-                <a href="#" className="text-3xl hover:scale-110 transition-transform">📷</a>
-                <a href="#" className="text-3xl hover:scale-110 transition-transform">🐦</a>
-                <a href="#" className="text-3xl hover:scale-110 transition-transform">💼</a>
+              <div className="flex gap-3 sm:gap-4">
+                <a href="#" className="text-2xl sm:text-3xl hover:scale-110 transition-transform">📘</a>
+                <a href="#" className="text-2xl sm:text-3xl hover:scale-110 transition-transform">📷</a>
+                <a href="#" className="text-2xl sm:text-3xl hover:scale-110 transition-transform">🐦</a>
+                <a href="#" className="text-2xl sm:text-3xl hover:scale-110 transition-transform">💼</a>
               </div>
             </div>
           </div>

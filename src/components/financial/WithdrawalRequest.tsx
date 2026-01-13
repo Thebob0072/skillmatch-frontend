@@ -72,7 +72,7 @@ const WithdrawalRequest: React.FC = () => {
 
       // Hide success message after 5 seconds
       setTimeout(() => setShowSuccess(false), 5000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.message || t('financial.withdrawal.error'));
     } finally {
       setLoading(false);
@@ -155,27 +155,27 @@ const WithdrawalRequest: React.FC = () => {
       )}
 
       {/* Withdrawal Form */}
-      <div className="bg-white rounded-xl shadow-md p-6">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('financial.withdrawal.form_title')}</h3>
+      <div className="glass-dark rounded-xl border border-purple-500/30 shadow-glow-purple p-6">
+        <h3 className="text-lg font-semibold text-white mb-4">{t('financial.withdrawal.form_title')}</h3>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
-            <p className="text-red-600 text-sm">{error}</p>
+          <div className="glass-dark border border-red-500/30 rounded-lg p-3 mb-4 shadow-glow-red">
+            <p className="text-red-400 text-sm">{error}</p>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Bank Account Selection */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              {t('financial.bank.title')} <span className="text-red-500">*</span>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              {t('financial.bank.title')} <span className="text-red-400">*</span>
             </label>
             <select
               value={selectedBankAccountId || ''}
               onChange={(e) => setSelectedBankAccountId(Number(e.target.value))}
               required
               disabled={verifiedAccounts.length === 0}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2 bg-gray-800 border border-purple-500/30 text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 disabled:bg-gray-900 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <option value="">{t('financial.withdrawal.select_account')}</option>
               {verifiedAccounts.map(account => (
@@ -189,8 +189,8 @@ const WithdrawalRequest: React.FC = () => {
 
           {/* Amount Input */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              {t('financial.withdrawal.amount')} <span className="text-red-500">*</span>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              {t('financial.withdrawal.amount')} <span className="text-red-400">*</span>
             </label>
             <input
               type="number"
@@ -202,22 +202,22 @@ const WithdrawalRequest: React.FC = () => {
               step="1"
               placeholder="0.00"
               disabled={verifiedAccounts.length === 0 || availableBalance < 100}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2 bg-gray-800 border border-purple-500/30 text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 disabled:bg-gray-900 disabled:cursor-not-allowed disabled:opacity-50 placeholder-gray-500"
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-gray-400 mt-1">
               {t('financial.withdrawal.min_max', { max: financialService.formatCurrency(availableBalance) })}
             </p>
           </div>
 
           {/* Fee Breakdown */}
           {parsedAmount >= 100 && (
-            <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+            <div className="glass-dark border border-purple-500/30 rounded-lg p-4 space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600">{t('financial.withdrawal.requested_amount')}</span>
-                <span className="font-medium text-gray-800">{financialService.formatCurrency(parsedAmount)}</span>
+                <span className="text-gray-400">{t('financial.withdrawal.requested_amount')}</span>
+                <span className="font-medium text-white">{financialService.formatCurrency(parsedAmount)}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600">{t('financial.withdrawal.fee')}</span>
+                <span className="text-gray-400">{t('financial.withdrawal.fee')}</span>
                 <span className="font-medium text-red-600">-{financialService.formatCurrency(fee)}</span>
               </div>
               <div className="border-t border-gray-300 pt-2 flex justify-between">
@@ -256,19 +256,19 @@ const WithdrawalRequest: React.FC = () => {
 
       {/* Withdrawal History */}
       {withdrawals.length > 0 && (
-        <div className="bg-white rounded-xl shadow-md p-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('financial.withdrawal.history')}</h3>
+        <div className="glass-dark rounded-xl border border-purple-500/30 shadow-glow-purple p-6">
+          <h3 className="text-lg font-semibold text-white mb-4">{t('financial.withdrawal.history')}</h3>
           <div className="space-y-3">
             {withdrawals.slice(0, 5).map(withdrawal => (
               <div
                 key={withdrawal.withdrawal_id}
-                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                className="flex items-center justify-between p-4 glass-dark border border-purple-500/20 rounded-lg hover:border-purple-500/40 transition-all"
               >
                 <div>
-                  <p className="font-medium text-gray-800">
+                  <p className="font-medium text-white">
                     {financialService.formatCurrency(withdrawal.requested_amount)}
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-400">
                     {new Date(withdrawal.requested_at).toLocaleDateString('th-TH', {
                       year: 'numeric',
                       month: 'short',
@@ -276,12 +276,12 @@ const WithdrawalRequest: React.FC = () => {
                     })}
                   </p>
                 </div>
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                  withdrawal.status === 'completed' ? 'bg-green-100 text-green-600' :
-                  withdrawal.status === 'approved' ? 'bg-blue-100 text-blue-600' :
-                  withdrawal.status === 'pending' ? 'bg-yellow-100 text-yellow-600' :
-                  withdrawal.status === 'rejected' ? 'bg-red-100 text-red-600' :
-                  'bg-gray-100 text-gray-600'
+                <span className={`px-3 py-1 rounded-full text-xs font-medium border ${
+                  withdrawal.status === 'completed' ? 'bg-green-500/20 text-green-400 border-green-500/30' :
+                  withdrawal.status === 'approved' ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' :
+                  withdrawal.status === 'pending' ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' :
+                  withdrawal.status === 'rejected' ? 'bg-red-500/20 text-red-400 border-red-500/30' :
+                  'bg-gray-500/20 text-gray-400 border-gray-500/30'
                 }`}>
                   {withdrawal.status === 'completed' ? t('financial.withdrawal.status_completed') :
                    withdrawal.status === 'approved' ? t('financial.withdrawal.status_approved') :

@@ -65,7 +65,9 @@ export const retryRequest = async <T>(
       if (attempt < maxRetries) {
         // Wait before retrying
         await new Promise(resolve => setTimeout(resolve, delay * attempt));
-        console.log(`Retry attempt ${attempt}/${maxRetries}...`);
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`Retry attempt ${attempt}/${maxRetries}...`);
+        }
       }
     }
   }

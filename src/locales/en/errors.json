@@ -1,0 +1,21 @@
+{
+  "VALIDATION_ERROR": "Invalid data. Please check and try again",
+  "PASSWORD_HASH_ERROR": "Error processing password. Please try again",
+  "USER_CREATE_ERROR": "Unable to create account. Please try again",
+  "EMAIL_EXISTS": "This email is already registered. Please use a different email or log in",
+  "USERNAME_EXISTS": "This username is already taken. Please choose another one",
+  "USER_FETCH_ERROR": "Unable to fetch user data. Please try again",
+  "TOKEN_CREATE_ERROR": "Unable to create token. Please try again",
+  "MISSING_CREDENTIALS": "Please enter email and password",
+  "INVALID_CREDENTIALS": "Invalid email or password",
+  "GOOGLE_LOGIN_REQUIRED": "This account uses Google Sign-In. Please click 'Sign in with Google' button",
+  "MISSING_GOOGLE_CODE": "Google verification code not found. Please try again",
+  "GOOGLE_AUTH_NOT_CONFIGURED": "Google authentication is not available. Please use email/password instead",
+  "GOOGLE_AUTH_FAILED": "Google authentication failed. Please try again",
+  "GOOGLE_SERVICE_ERROR": "Cannot connect to Google. Please try again",
+  "GOOGLE_USERINFO_ERROR": "Cannot retrieve user information from Google. Please try again",
+  "GOOGLE_UNAVAILABLE": "Google Sign-In is temporarily unavailable. Please use email/password instead",
+  "GOOGLE_UNAVAILABLE": "Google Sign-In is temporarily unavailable. Please use Email/Password login",
+  "NETWORK_ERROR": "Cannot connect to server. Please check your internet connection",
+  "UNKNOWN_ERROR": "An unknown error occurred. Please try again"
+}

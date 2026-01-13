@@ -72,7 +72,7 @@ export const ExtendSessionModal: React.FC<ExtendSessionModalProps> = ({
         // Direct extension (if already paid or wallet balance)
         onSuccess(selectedPackage.minutes);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.response?.data?.error || t('extend_session.error', 'Failed to extend session'));
     } finally {
       setIsLoading(false);

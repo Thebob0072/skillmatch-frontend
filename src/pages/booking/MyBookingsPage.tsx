@@ -47,13 +47,13 @@ const MyBookingsPage: React.FC = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:8080/bookings/my', {
+      const response = await axios.get('/api/bookings/my', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setBookings(response.data.bookings || []);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.response?.data?.error || 'Failed to fetch bookings');
     } finally {
       setLoading(false);
@@ -85,7 +85,7 @@ const MyBookingsPage: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.patch(
-        `http://localhost:8080/bookings/${bookingId}/status`,
+        `/api/bookings/${bookingId}/status`,
         {
           status: 'cancelled',
           cancellation_reason: reason,
@@ -99,7 +99,7 @@ const MyBookingsPage: React.FC = () => {
       );
       alert(t('booking.booking_cancelled'));
       fetchBookings(); // Refresh list
-    } catch (err: any) {
+    } catch (err: unknown) {
       alert(err.response?.data?.error || 'Failed to cancel booking');
     }
   };
@@ -111,10 +111,10 @@ const MyBookingsPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
+          <p className="text-gray-300">Loading...</p>
         </div>
       </div>
     );
@@ -122,8 +122,8 @@ const MyBookingsPage: React.FC = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center bg-white p-8 rounded-lg shadow-md">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 flex items-center justify-center">
+        <div className="text-center glass-dark p-8 rounded-lg border border-red-500/30 shadow-glow-red">
           <p className="text-red-600 mb-4">{error}</p>
           <button
             onClick={fetchBookings}
@@ -137,24 +137,24 @@ const MyBookingsPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-pink-400 to-purple-500 animate-neon-pulse mb-2">
             {t('booking.my_bookings')}
           </h1>
-          <p className="text-gray-600">{t('booking.booking_history')}</p>
+          <p className="text-gray-300">{t('booking.booking_history')}</p>
         </div>
 
         {/* Tabs */}
-        <div className="bg-white rounded-lg shadow-sm mb-6 p-1 flex gap-1">
+        <div className="glass-dark rounded-lg border border-purple-500/30 shadow-glow-purple mb-6 p-1 flex gap-1">
           <button
             onClick={() => setActiveTab('upcoming')}
             className={`flex-1 py-3 px-4 rounded-lg font-medium transition-colors ${
               activeTab === 'upcoming'
-                ? 'bg-purple-600 text-white'
-                : 'text-gray-600 hover:bg-gray-100'
+                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-glow-purple'
+                : 'text-gray-300 hover:bg-purple-500/20'
             }`}
           >
             {t('booking.upcoming_bookings')} ({upcomingBookings.length})
@@ -163,8 +163,8 @@ const MyBookingsPage: React.FC = () => {
             onClick={() => setActiveTab('past')}
             className={`flex-1 py-3 px-4 rounded-lg font-medium transition-colors ${
               activeTab === 'past'
-                ? 'bg-purple-600 text-white'
-                : 'text-gray-600 hover:bg-gray-100'
+                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-glow-purple'
+                : 'text-gray-300 hover:bg-purple-500/20'
             }`}
           >
             {t('booking.past_bookings')} ({pastBookings.length})
@@ -172,14 +172,14 @@ const MyBookingsPage: React.FC = () => {
         </div>
 
         {/* Status Filter */}
-        <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+        <div className="glass-dark rounded-lg border border-purple-500/30 shadow-glow-purple p-4 mb-6">
+          <label className="block text-sm font-medium text-gray-300 mb-2">
             {t('booking.status')}:
           </label>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            className="w-full md:w-64 px-4 py-2 bg-gray-800 border border-purple-500/30 text-white rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-purple-500"
           >
             <option value="all">{t('common.all')}</option>
             <option value="pending">{t('booking_status.pending')}</option>

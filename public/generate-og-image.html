@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>OG Image Generator</title>
+</head>
+<body style="margin: 0; padding: 0;">
+    <canvas id="canvas" width="1200" height="630"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Gradient Background
+        const gradient = ctx.createLinearGradient(0, 0, 1200, 630);
+        gradient.addColorStop(0, '#ff10f0');
+        gradient.addColorStop(0.5, '#6b21a8');
+        gradient.addColorStop(1, '#1e1b4b');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 1200, 630);
+
+        // Decorative circles
+        ctx.fillStyle = 'rgba(255, 16, 240, 0.1)';
+        ctx.beginPath();
+        ctx.arc(100, 100, 60, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(236, 72, 153, 0.1)';
+        ctx.beginPath();
+        ctx.arc(1100, 530, 80, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+        ctx.beginPath();
+        ctx.arc(950, 150, 40, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Logo
+        ctx.font = 'bold 120px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.shadowColor = 'rgba(255, 16, 240, 0.8)';
+        ctx.shadowBlur = 20;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('💋', 600, 140);
+        ctx.shadowBlur = 0;
+
+        // Main Title
+        ctx.font = 'bold 56px Arial';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('Thai Variety Entertainment', 600, 260);
+
+        // Subtitle
+        ctx.font = '32px Arial';
+        ctx.fillStyle = '#fde047';
+        ctx.fillText('Premium Booking Platform', 600, 320);
+
+        // Cities
+        ctx.font = '500 24px Arial';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('🏙️ Bangkok', 220, 410);
+        ctx.fillText('🏖️ Phuket', 440, 410);
+        ctx.fillText('🌴 Pattaya', 660, 410);
+        ctx.fillText('⛰️ Chiang Mai', 920, 410);
+
+        // Features
+        ctx.font = '20px Arial';
+        ctx.fillStyle = '#fde047';
+        ctx.fillText('✓ Verified Providers', 300, 480);
+        ctx.fillText('✓ Safe Booking', 600, 480);
+        ctx.fillText('✓ 24/7 Support', 900, 480);
+
+        // Rating
+        ctx.font = '28px Arial';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('⭐⭐⭐⭐⭐', 520, 540);
+        ctx.fillStyle = '#fde047';
+        ctx.font = '24px Arial';
+        ctx.fillText('4.8/5', 670, 540);
+        ctx.fillStyle = '#e2e8f0';
+        ctx.font = '20px Arial';
+        ctx.fillText('(1,250 reviews)', 800, 540);
+
+        // Website URL
+        ctx.font = '300 22px Arial';
+        ctx.fillStyle = '#e2e8f0';
+        ctx.fillText('thaivariety.app', 600, 595);
+
+        // Auto download
+        setTimeout(() => {
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'og-image.png';
+                a.click();
+                console.log('✅ og-image.png downloaded!');
+            }, 'image/png');
+        }, 100);
+    </script>
+</body>
+</html>

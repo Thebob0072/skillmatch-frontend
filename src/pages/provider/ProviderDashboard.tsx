@@ -49,8 +49,10 @@ export const ProviderDashboard: React.FC = () => {
       // Check profile completeness
       const profileRes = await api.get('/provider/profile');
       setProfileComplete(profileRes.data?.is_complete || false);
-    } catch (err) {
-      // Use mock data for demo
+    } catch (err: unknown) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to fetch dashboard data');
+      }
       setStats({
         total_bookings: 0,
         pending_bookings: 0,
@@ -85,17 +87,17 @@ export const ProviderDashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-purple-950 to-black py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-black via-purple-950 to-black py-4 sm:py-6 lg:py-8 px-3 sm:px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 sm:mb-8 gap-4">
           <div>
-            <h1 className="text-3xl md:text-4xl font-black mb-2">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black mb-2">
               <span className="bg-gradient-to-r from-neon-pink to-neon-purple bg-clip-text text-transparent">
                 👋 {t('providerDashboard.welcome')}, {user?.username}!
               </span>
             </h1>
-            <p className="text-gray-400">{t('providerDashboard.subtitle')}</p>
+            <p className="text-sm sm:text-base text-gray-400">{t('providerDashboard.subtitle')}</p>
           </div>
           <Link
             to="/provider/profile"

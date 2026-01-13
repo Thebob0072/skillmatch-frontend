@@ -1,8 +1,9 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 export function ProviderProfilePage() {
   const { userId } = useParams();
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   return (
@@ -20,8 +21,11 @@ export function ProviderProfilePage() {
                 <span className="text-green-400">✓ {t('provider_profile.verified')}</span>
               </div>
             </div>
-            <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold px-8 py-3 rounded-lg transition-colors">
-              {t('provider_profile.book_now')}
+            <button 
+              onClick={() => navigate(`/booking/${userId}`)}
+              className="bg-pink-600 hover:bg-pink-700 text-white font-bold px-8 py-3 rounded-lg transition-colors shadow-lg"
+            >
+              📅 {t('provider_profile.book_now')}
             </button>
           </div>
         </div>

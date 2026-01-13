@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { godService } from '../../services/godService';
 import type { UserListResponse } from '../../services/godService';
+import LanguageSwitcher from '../../components/LanguageSwitcher';
 
 const GodUsersPage: React.FC = () => {
   const { user } = useAuth();
@@ -28,7 +29,17 @@ const GodUsersPage: React.FC = () => {
       });
       setUsers(data);
     } catch (error) {
-      console.error('Failed to load users:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to load users');
+      }
+      // Set empty users list on error
+      setUsers({
+        users: [],
+        total: 0,
+        page: 1,
+        limit: 20,
+        total_pages: 0,
+      });
     } finally {
       setLoading(false);
     }
@@ -48,7 +59,7 @@ const GodUsersPage: React.FC = () => {
       await godService.deleteUser(userId);
       alert(`✅ ลบ user "${username}" สำเร็จ`);
       loadUsers();
-    } catch (error: any) {
+    } catch (error: unknown) {
       alert(`❌ ลบ user ไม่สำเร็จ: ${error.response?.data?.message || error.message}`);
     }
   };
@@ -64,7 +75,7 @@ const GodUsersPage: React.FC = () => {
       await godService.banUser({ user_id: userId, reason, duration_days });
       alert(`🔨 Ban user "${username}" สำเร็จ`);
       loadUsers();
-    } catch (error: any) {
+    } catch (error: unknown) {
       alert(`❌ Ban user ไม่สำเร็จ: ${error.response?.data?.message || error.message}`);
     }
   };
@@ -77,7 +88,7 @@ const GodUsersPage: React.FC = () => {
       await godService.updateUser({ user_id: userId, is_admin: !currentIsAdmin });
       alert(`✅ ${action} "${username}" สำเร็จ`);
       loadUsers();
-    } catch (error: any) {
+    } catch (error: unknown) {
       alert(`❌ ${action} ไม่สำเร็จ: ${error.response?.data?.message || error.message}`);
     }
   };
@@ -105,7 +116,7 @@ const GodUsersPage: React.FC = () => {
       await godService.updateUser({ user_id: userId, tier_id });
       alert(`✅ เปลี่ยน tier ของ "${username}" สำเร็จ`);
       loadUsers();
-    } catch (error: any) {
+    } catch (error: unknown) {
       alert(`❌ เปลี่ยน tier ไม่สำเร็จ: ${error.response?.data?.message || error.message}`);
     }
   };
@@ -115,7 +126,7 @@ const GodUsersPage: React.FC = () => {
       <div className="min-h-screen bg-gradient-to-br from-black via-purple-950 to-black flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4 animate-pulse">👑</div>
-          <p className="text-white text-xl">Loading Users...</p>
+          <p className="text-white text-xl">{t('god_loading')}</p>
         </div>
       </div>
     );
@@ -124,6 +135,11 @@ const GodUsersPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-purple-950 to-black">
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-yellow-500/20 via-transparent to-transparent animate-pulse pointer-events-none"></div>
+
+      {/* Language Switcher - Top Right */}
+      <div className="fixed top-4 right-4 z-50">
+        <LanguageSwitcher />
+      </div>
 
       <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Header */}
@@ -136,10 +152,10 @@ const GodUsersPage: React.FC = () => {
               backgroundClip: 'text',
               filter: 'drop-shadow(0 0 30px rgba(255, 215, 0, 0.8))',
             }}>
-              👥 User Management
+              👥 {t('god_user_management')}
             </span>
           </h1>
-          <p className="text-gray-400">Total Control over All Users</p>
+          <p className="text-gray-400">{t('god_user_management_subtitle')}</p>
         </div>
 
         {/* Search & Filters */}

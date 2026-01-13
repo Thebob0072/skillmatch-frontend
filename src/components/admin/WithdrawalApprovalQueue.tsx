@@ -25,8 +25,9 @@ const WithdrawalApprovalQueue: React.FC = () => {
     try {
       await processWithdrawal(withdrawal.withdrawal_id, 'approve');
       await refetch();
-    } catch (err: any) {
-      alert(err.message || 'เกิดข้อผิดพลาด');
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : 'เกิดข้อผิดพลาด';
+      alert(errorMsg);
     } finally {
       setProcessingId(null);
     }
@@ -52,7 +53,7 @@ const WithdrawalApprovalQueue: React.FC = () => {
       setRejectionReason('');
       setSelectedWithdrawal(null);
       await refetch();
-    } catch (err: any) {
+    } catch (err: unknown) {
       alert(err.message || 'เกิดข้อผิดพลาด');
     } finally {
       setProcessingId(null);
@@ -80,7 +81,7 @@ const WithdrawalApprovalQueue: React.FC = () => {
       setTransferReference('');
       setSelectedWithdrawal(null);
       await refetch();
-    } catch (err: any) {
+    } catch (err: unknown) {
       alert(err.message || 'เกิดข้อผิดพลาด');
     } finally {
       setProcessingId(null);

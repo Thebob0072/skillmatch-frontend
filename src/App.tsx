@@ -39,6 +39,8 @@ import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import VerifyUserPage from './pages/admin/VerifyUserPage';
 import CreateUserPage from './pages/admin/CreateUserPage';
 import AdminFinancialPage from './pages/admin/AdminFinancialPage';
+import AdminUsersPage from './pages/admin/AdminUsersPage';
+import AdminPromotionManager from './pages/admin/AdminPromotionManager';
 
 // God Pages
 import GodDashboardPage from './pages/god/GodDashboardPage';
@@ -49,6 +51,16 @@ import ProviderOnboardingPage from './pages/provider/ProviderOnboardingPage';
 import ProviderDashboard from './pages/provider/ProviderDashboard';
 import ServicePackageManager from './pages/provider/ServicePackageManager';
 import ProviderPhotoGallery from './pages/provider/ProviderPhotoGallery';
+import ProviderBookingsPage from './pages/provider/ProviderBookingsPage';
+import ProviderCouponManager from './pages/provider/ProviderCouponManager';
+
+// Booking Pages
+import BookingPage from './pages/BookingPage';
+import QRPaymentPage from './pages/QRPaymentPage';
+import MyBookingsPage from './pages/MyBookingsPage';
+
+// Promotion Pages
+import PromotionBrowsePage from './pages/PromotionBrowsePage';
 
 import './App.css';
 import HomePage from './pages/HomePage';
@@ -70,6 +82,7 @@ function App() {
               {/* === Public Routes (ทุกคนเห็นได้) === */}
               <Route path="/" element={<HomePage />} />
               <Route path="/pricing" element={<PricingPage />} />
+              <Route path="/promotions" element={<PromotionBrowsePage />} />
               <Route path="/terms" element={<TermsOfService />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/safety" element={<SafetyGuidelines />} />
@@ -95,14 +108,21 @@ function App() {
                 <Route path="/profile/edit" element={<EditProfilePage />} />
                 <Route path="/provider/:userId" element={<ProviderProfilePage />} />
                 <Route path="/financial" element={<RequireVerification><FinancialPage /></RequireVerification>} />
+                
+                {/* === Booking Routes === */}
+                <Route path="/booking/:providerId" element={<RequireVerification><BookingPage /></RequireVerification>} />
+                <Route path="/payment/qr" element={<RequireVerification><QRPaymentPage /></RequireVerification>} />
+                <Route path="/bookings/my" element={<RequireVerification><MyBookingsPage /></RequireVerification>} />
               </Route>
 
               {/* === Admin Routes (ต้อง Login และ is_admin = true) === */}
               <Route element={<AdminRoute />}>
                 <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+                <Route path="/admin/users" element={<AdminUsersPage />} />
                 <Route path="/admin/verify/:userId" element={<VerifyUserPage />} />
                 <Route path="/admin/create-user" element={<CreateUserPage />} />
                 <Route path="/admin/financial" element={<AdminFinancialPage />} />
+                <Route path="/admin/promotions" element={<AdminPromotionManager />} />
               </Route>
 
               {/* === God Routes (ต้อง Login และ tier_name = 'God') === */}
@@ -117,6 +137,8 @@ function App() {
                 <Route path="/provider/dashboard" element={<RequireVerification><ProviderDashboard /></RequireVerification>} />
                 <Route path="/provider/services" element={<RequireVerification><ServicePackageManager /></RequireVerification>} />
                 <Route path="/provider/photos" element={<RequireVerification><ProviderPhotoGallery /></RequireVerification>} />
+                <Route path="/provider/bookings" element={<RequireVerification><ProviderBookingsPage /></RequireVerification>} />
+                <Route path="/provider/coupons" element={<RequireVerification><ProviderCouponManager /></RequireVerification>} />
               </Route>
 
             </Route>

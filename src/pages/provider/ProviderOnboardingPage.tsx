@@ -14,10 +14,17 @@ export const ProviderOnboardingPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  
+  // Email verification state
+  const [otpCode, setOtpCode] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpError, setOtpError] = useState('');
+  const [resendTimer, setResendTimer] = useState(0);
 
   const steps: OnboardingStep[] = [
+    { id: 0, title: t('onboarding.emailVerification') || 'Email Verification', icon: '📧', completed: false },
     { id: 1, title: t('onboarding.basicInfo'), icon: '👤', completed: false },
     { id: 2, title: t('onboarding.photos'), icon: '📸', completed: false },
     { id: 3, title: t('onboarding.services'), icon: '💼', completed: false },
@@ -100,6 +107,74 @@ export const ProviderOnboardingPage: React.FC = () => {
     setServices(services.filter((_, i) => i !== index));
   };
 
+  // Email verification functions
+  const sendOTP = async () => {
+    setIsLoading(true);
+    setOtpError('');
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/send-otp`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to send OTP');
+      }
+      
+      setOtpSent(true);
+      setResendTimer(60);
+    } catch (error: unknown) {
+      setOtpError(error.message || t('onboarding.otpSendError') || 'Failed to send OTP');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const verifyOTP = async () => {
+    if (otpCode.length !== 6) {
+      setOtpError(t('onboarding.otpInvalidLength') || 'OTP must be 6 digits');
+      return;
+    }
+    
+    setIsLoading(true);
+    setOtpError('');
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/verify-otp`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ otp: otpCode }),
+      });
+      
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || 'Invalid OTP');
+      }
+      
+      // Move to next step
+      setCurrentStep(1);
+    } catch (error: unknown) {
+      setOtpError(error.message || t('onboarding.otpVerifyError') || 'Invalid OTP code');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Resend timer
+  useEffect(() => {
+    if (resendTimer > 0) {
+      const timer = setTimeout(() => setResendTimer(resendTimer - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [resendTimer]);
+
   const handleNext = () => {
     if (currentStep < 5) {
       setCurrentStep(currentStep + 1);
@@ -109,7 +184,7 @@ export const ProviderOnboardingPage: React.FC = () => {
   };
 
   const handleBack = () => {
-    if (currentStep > 1) {
+    if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
     }
   };
@@ -121,7 +196,9 @@ export const ProviderOnboardingPage: React.FC = () => {
       // await providerService.completeOnboarding({ basicInfo, photos, services, schedule });
       navigate('/dashboard');
     } catch (error) {
-      console.error('Onboarding error:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Onboarding error');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -129,6 +206,100 @@ export const ProviderOnboardingPage: React.FC = () => {
 
   const renderStepContent = () => {
     switch (currentStep) {
+      case 0:
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-8">
+              <div className="text-6xl mb-4">📧</div>
+              <h3 className="text-3xl font-bold text-white mb-3">
+                {t('onboarding.emailVerificationTitle') || 'Verify Your Email'}
+              </h3>
+              <p className="text-gray-300">
+                {t('onboarding.emailVerificationDesc') || 'We need to verify your email address to continue'}
+              </p>
+              <div className="mt-4 p-4 bg-neon-blue/10 border border-neon-blue/30 rounded-xl">
+                <p className="text-sm text-neon-blue font-medium">
+                  📬 {user?.email}
+                </p>
+              </div>
+            </div>
+
+            {!otpSent ? (
+              <div className="text-center">
+                <button
+                  onClick={sendOTP}
+                  disabled={isLoading}
+                  className="relative group px-8 py-4 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink rounded-xl font-bold text-lg shadow-[0_0_30px_rgba(0,212,255,0.5)] hover:shadow-[0_0_50px_rgba(0,212,255,0.8)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+                >
+                  {isLoading ? (
+                    <span className="flex items-center gap-2">
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      {t('onboarding.sending') || 'Sending...'}
+                    </span>
+                  ) : (
+                    t('onboarding.sendOTP') || 'Send Verification Code'
+                  )}
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2 text-center">
+                    {t('onboarding.enterOTP') || 'Enter 6-digit verification code'}
+                  </label>
+                  <input
+                    type="text"
+                    maxLength={6}
+                    value={otpCode}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, '');
+                      setOtpCode(value);
+                      setOtpError('');
+                    }}
+                    className="w-full px-6 py-4 bg-black/50 border-2 border-neon-blue/30 rounded-xl text-white text-center text-2xl font-bold tracking-widest focus:border-neon-blue focus:outline-none"
+                    placeholder="000000"
+                  />
+                </div>
+
+                {otpError && (
+                  <div className="bg-gradient-to-r from-neon-red/20 to-pink-900/20 border border-neon-red p-4 rounded-xl">
+                    <p className="text-neon-red text-sm font-bold flex items-center gap-2">
+                      <span className="text-xl">❌</span>
+                      {otpError}
+                    </p>
+                  </div>
+                )}
+
+                <div className="flex flex-col gap-3">
+                  <button
+                    onClick={verifyOTP}
+                    disabled={isLoading || otpCode.length !== 6}
+                    className="w-full px-8 py-4 bg-gradient-to-r from-neon-green via-neon-blue to-neon-purple rounded-xl font-bold text-lg shadow-[0_0_30px_rgba(0,255,136,0.5)] hover:shadow-[0_0_50px_rgba(0,255,136,0.8)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+                  >
+                    {isLoading ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        {t('onboarding.verifying') || 'Verifying...'}
+                      </span>
+                    ) : (
+                      t('onboarding.verifyOTP') || 'Verify Code'
+                    )}
+                  </button>
+
+                  <button
+                    onClick={sendOTP}
+                    disabled={isLoading || resendTimer > 0}
+                    className="w-full px-6 py-3 bg-black/50 border border-neon-purple/30 rounded-xl font-medium text-sm text-gray-300 hover:border-neon-purple hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+                  >
+                    {resendTimer > 0 
+                      ? `${t('onboarding.resendIn') || 'Resend in'} ${resendTimer}s`
+                      : t('onboarding.resendOTP') || 'Resend Code'}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        );
       case 1:
         return (
           <div className="space-y-6">

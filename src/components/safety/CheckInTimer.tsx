@@ -90,7 +90,9 @@ export const CheckInTimer: React.FC<CheckInTimerProps> = ({
         longitude = position.coords.longitude;
       } catch (err) {
         // Continue without location
-        console.warn('Could not get location:', err);
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('Could not get location');
+        }
       }
 
       await checkIn({

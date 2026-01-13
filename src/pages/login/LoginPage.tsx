@@ -5,10 +5,11 @@ import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { googleAuth } from '../../services/authService';
 import { getCurrentUser } from '../../services/profileService';
+import AgeVerificationModal from '../../components/AgeVerificationModal';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, updateUser } = useAuth();
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
     email: '',
@@ -16,6 +17,8 @@ const LoginPage: React.FC = () => {
   });
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState(false);
+  const [showAgeVerification, setShowAgeVerification] = useState(false);
+  const [pendingGoogleAuth, setPendingGoogleAuth] = useState<{ token: string; user: any } | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,8 +28,10 @@ const LoginPage: React.FC = () => {
     try {
       await login(formData);
       navigate('/');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+    } catch (err: unknown) {
+      const errorCode = err.response?.data?.error_code;
+      const errorMsg = errorCode ? t(`errors:${errorCode}`) : (err.response?.data?.error || t('errors:INVALID_CREDENTIALS'));
+      setError(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -38,10 +43,7 @@ const LoginPage: React.FC = () => {
       setLoading(true);
       setError('');
       try {
-        console.log('Google code received:', codeResponse.code);
         const result = await googleAuth({ code: codeResponse.code });
-        console.log('Backend response:', result);
-        console.log('Token:', result.token);
         
         // ตรวจสอบว่ามี token
         if (!result.token) {
@@ -53,42 +55,57 @@ const LoginPage: React.FC = () => {
         
         // Fetch ข้อมูล user ด้วย token
         const userData = await getCurrentUser();
-        console.log('User data fetched:', userData);
-        console.log('Profile picture URL:', userData.profile_picture_url);
         
         // เก็บ user data
         localStorage.setItem('user', JSON.stringify(userData));
         
-        // Log เพื่อ debug
-        console.log('Token saved:', localStorage.getItem('authToken'));
-        console.log('User saved:', localStorage.getItem('user'));
+        // อัพเดท AuthContext ให้รู้ว่า user ล็อกอินแล้ว
+        updateUser(userData);
         
-        // Reload หน้าเพื่อให้ AuthContext อ่านใหม่
-        window.location.href = '/';
-      } catch (err: any) {
-        console.error('Google login error:', err);
-        setError(err.response?.data?.message || err.message || 'Google login failed. Please try again.');
+        // เก็บข้อมูลไว้แล้วแสดง age verification
+        setPendingGoogleAuth({ token: result.token, user: userData });
+        setShowAgeVerification(true);
+        setLoading(false);
+      } catch (err: unknown) {
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Google login error');
+        }
+        // Check if Google OAuth is unavailable (503)
+        const errorResponse = (err && typeof err === 'object' && 'response' in err ? (err as any).response : undefined) as any;
+        if (errorResponse?.status === 503) {
+          setError(t('errors:GOOGLE_UNAVAILABLE') || 'Google Sign-In is temporarily unavailable. Please use Email/Password login below.');
+        } else {
+          let errorMsg = t('errors:UNKNOWN_ERROR');
+          if (err && typeof err === 'object' && 'response' in err && err.response && typeof err.response === 'object' && 'data' in err.response) {
+            const data = err.response as { error_code?: string; error?: string };
+            const errorCode = data.error_code;
+            errorMsg = errorCode ? t(`errors:${errorCode}`) : (data.error || errorMsg);
+          }
+          setError(errorMsg);
+        }
         setLoading(false);
       }
     },
     onError: (error) => {
-      console.error('Google OAuth error:', error);
-      setError('Google login was cancelled or failed.');
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Google OAuth error');
+      }
+      setError(t('errors:UNKNOWN_ERROR'));
     },
   });
 
   return (
-    <div className="flex items-center justify-center py-8 sm:py-10 lg:py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden min-h-screen">
+    <div className="flex items-center justify-center py-4 sm:py-10 lg:py-12 px-3 sm:px-6 lg:px-8 relative overflow-hidden min-h-screen">
       {/* Luxury Background */}
       <div className="fixed inset-0 bg-gradient-to-br from-black via-purple-950 to-black"></div>
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-neon-pink/20 via-transparent to-transparent animate-pulse pointer-events-none"></div>
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-neon-purple/10 via-transparent to-transparent animate-pulse pointer-events-none"></div>
 
-      <div className="max-w-md w-full space-y-6 sm:space-y-8 relative z-10">
+      <div className="max-w-md w-full space-y-3 sm:space-y-8 relative z-10">
         {/* Header */}
         <div className="text-center">
-          <div className="text-4xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4 animate-float drop-shadow-[0_0_40px_rgba(255,16,240,1)]">💋</div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-2 sm:mb-3">
+          <div className="text-3xl sm:text-5xl lg:text-6xl mb-2 sm:mb-4 animate-float drop-shadow-[0_0_40px_rgba(255,16,240,1)]">💋</div>
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black mb-1 sm:mb-3">
             <span style={{
               background: 'linear-gradient(to right, #ff10f0, #9d00ff, #ffd700)',
               WebkitBackgroundClip: 'text',
@@ -100,24 +117,24 @@ const LoginPage: React.FC = () => {
               {t('login_title') || 'Welcome Back'}
             </span>
           </h2>
-          <p className="text-gray-300 text-base sm:text-lg" style={{textShadow: '0 2px 10px rgba(0,0,0,0.8)'}}>
+          <p className="text-gray-300 text-sm sm:text-lg" style={{textShadow: '0 2px 10px rgba(0,0,0,0.8)'}}>
             {t('login_title')}
           </p>
         </div>
 
-        <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-3 sm:space-y-6" onSubmit={handleSubmit}>
           {error && (
-            <div className="bg-gradient-to-r from-neon-red/20 to-pink-900/20 backdrop-blur-xl border border-neon-red sm:border-2 px-4 sm:px-6 py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-[0_0_30px_rgba(255,0,85,0.4)]">
-              <p className="text-neon-red text-sm sm:text-base font-bold flex items-center gap-2">
-                <span className="text-xl sm:text-2xl">❌</span>
+            <div className="bg-gradient-to-r from-neon-red/20 to-pink-900/20 backdrop-blur-xl border border-neon-red sm:border-2 px-3 sm:px-6 py-2 sm:py-4 rounded-lg sm:rounded-xl shadow-[0_0_30px_rgba(255,0,85,0.4)]">
+              <p className="text-neon-red text-xs sm:text-base font-bold flex items-center gap-2">
+                <span className="text-lg sm:text-2xl">❌</span>
                 {error}
               </p>
             </div>
           )}
           
-          <div className="bg-black/50 backdrop-blur-2xl p-5 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl border border-neon-purple/30 sm:border-2 shadow-[0_0_40px_rgba(157,0,255,0.3)] sm:shadow-[0_0_60px_rgba(157,0,255,0.3)] space-y-4 sm:space-y-6">
+          <div className="bg-black/50 backdrop-blur-2xl p-4 sm:p-6 lg:p-8 rounded-xl sm:rounded-3xl border border-neon-purple/30 sm:border-2 shadow-[0_0_40px_rgba(157,0,255,0.3)] sm:shadow-[0_0_60px_rgba(157,0,255,0.3)] space-y-3 sm:space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-bold text-gray-200 mb-2">
+              <label htmlFor="email" className="block text-xs sm:text-sm font-bold text-gray-200 mb-1.5 sm:mb-2">
                 {t('login_email')}
               </label>
               <input
@@ -125,14 +142,14 @@ const LoginPage: React.FC = () => {
                 name="email"
                 type="email"
                 required
-                className="w-full px-4 py-3 bg-black/50 border-2 border-neon-purple/30 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-neon-purple focus:shadow-[0_0_20px_rgba(157,0,255,0.4)] transition-all duration-300"
+                className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-black/50 border-2 border-neon-purple/30 rounded-lg sm:rounded-xl text-sm sm:text-base text-white placeholder-gray-500 focus:outline-none focus:border-neon-purple focus:shadow-[0_0_20px_rgba(157,0,255,0.4)] transition-all duration-300"
                 placeholder={t('login_email_placeholder')}
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-bold text-gray-200 mb-2">
+              <label htmlFor="password" className="block text-xs sm:text-sm font-bold text-gray-200 mb-1.5 sm:mb-2">
                 {t('login_password')}
               </label>
               <input
@@ -140,33 +157,33 @@ const LoginPage: React.FC = () => {
                 name="password"
                 type="password"
                 required
-                className="w-full px-4 py-3 bg-black/50 border-2 border-neon-purple/30 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-neon-purple focus:shadow-[0_0_20px_rgba(157,0,255,0.4)] transition-all duration-300"
+                className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-black/50 border-2 border-neon-purple/30 rounded-lg sm:rounded-xl text-sm sm:text-base text-white placeholder-gray-500 focus:outline-none focus:border-neon-purple focus:shadow-[0_0_20px_rgba(157,0,255,0.4)] transition-all duration-300"
                 placeholder={t('login_password_placeholder')}
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               />
             </div>
 
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-2 cursor-pointer group">
+            <div className="flex items-center justify-between text-xs sm:text-sm gap-2">
+              <label className="flex items-center gap-1.5 sm:gap-2 cursor-pointer group">
                 <input
                   type="checkbox"
-                  className="w-4 h-4 rounded border-2 border-neon-purple/50 bg-black/50 text-neon-purple focus:ring-neon-purple focus:ring-offset-0"
+                  className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded border-2 border-neon-purple/50 bg-black/50 text-neon-purple focus:ring-neon-purple focus:ring-offset-0"
                 />
-                <span className="text-gray-400 group-hover:text-white transition-colors">{t('login_remember_me') || 'Remember me'}</span>
+                <span className="text-gray-400 group-hover:text-white transition-colors whitespace-nowrap">{t('login_remember_me') || 'Remember me'}</span>
               </label>
-              <Link to="/forgot-password" className="text-neon-purple hover:text-neon-pink font-bold transition-colors">
-                {t('login_forgot_password') || 'Forgot password?'}
+              <Link to="/forgot-password" className="text-neon-purple hover:text-neon-pink font-bold transition-colors whitespace-nowrap">
+                {t('login_forgot_password') || 'Forgot?'}
               </Link>
             </div>
           </div>
 
           <div className="relative group">
-            <div className="absolute inset-0 bg-gradient-to-r from-neon-purple via-neon-blue to-neon-purple rounded-[2rem] blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-neon-purple via-neon-blue to-neon-purple rounded-xl sm:rounded-[2rem] blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
             <button
               type="submit"
               disabled={loading}
-              className="relative w-full bg-gradient-to-r from-neon-purple via-neon-blue to-neon-purple text-white font-black text-xl py-5 rounded-[2rem] shadow-[0_0_40px_rgba(157,0,255,0.6)] hover:shadow-[0_0_60px_rgba(157,0,255,1)] hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed border-2 border-neon-purple/50"
+              className="relative w-full bg-gradient-to-r from-neon-purple via-neon-blue to-neon-purple text-white font-black text-base sm:text-xl py-3 sm:py-5 rounded-xl sm:rounded-[2rem] shadow-[0_0_40px_rgba(157,0,255,0.6)] hover:shadow-[0_0_60px_rgba(157,0,255,1)] active:scale-95 sm:hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed border-2 border-neon-purple/50"
             >
               <span className="drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                 {loading ? `⏳ ${t('login_loading')}` : `✨ ${t('login_button')}`}
@@ -186,14 +203,14 @@ const LoginPage: React.FC = () => {
 
           {/* Google Sign In Button */}
           <div className="relative group">
-            <div className="absolute inset-0 bg-gradient-to-r from-white via-gray-200 to-white rounded-[2rem] blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-300"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-gray-200 to-white rounded-xl sm:rounded-[2rem] blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-300"></div>
             <button
               type="button"
               onClick={() => handleGoogleLogin()}
               disabled={loading}
-              className="relative w-full bg-white hover:bg-gray-50 text-gray-800 font-bold text-lg py-5 rounded-[2rem] shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_40px_rgba(255,255,255,0.5)] hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed border-2 border-white/50 flex items-center justify-center gap-3"
+              className="relative w-full bg-white hover:bg-gray-50 active:bg-gray-100 text-gray-800 font-bold text-sm sm:text-lg py-3 sm:py-5 rounded-xl sm:rounded-[2rem] shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_40px_rgba(255,255,255,0.5)] active:scale-95 sm:hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed border-2 border-white/50 flex items-center justify-center gap-2 sm:gap-3"
             >
-              <svg className="w-6 h-6" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                 <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
@@ -208,7 +225,7 @@ const LoginPage: React.FC = () => {
           <div className="text-center">
             <Link 
               to="/register" 
-              className="text-neon-purple hover:text-neon-pink font-bold transition-colors duration-300"
+              className="text-neon-purple hover:text-neon-pink font-bold transition-colors duration-300 text-sm sm:text-base"
               style={{textShadow: '0 0 20px rgba(157,0,255,0.6)'}}
             >
               {t('login_no_account')} <span className="underline">{t('register_button')}</span> →
@@ -216,12 +233,12 @@ const LoginPage: React.FC = () => {
           </div>
 
           {/* Security Notice */}
-          <div className="bg-black/30 backdrop-blur-xl p-6 rounded-2xl border border-neon-gold/30">
-            <div className="flex items-start gap-3">
-              <div className="text-3xl">🔒</div>
+          <div className="bg-black/30 backdrop-blur-xl p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-neon-gold/30">
+            <div className="flex items-start gap-2 sm:gap-3">
+              <div className="text-xl sm:text-3xl">🔒</div>
               <div>
-                <h4 className="text-neon-gold font-black text-sm mb-2">Secure Connection</h4>
-                <p className="text-gray-400 text-xs leading-relaxed">
+                <h4 className="text-neon-gold font-black text-xs sm:text-sm mb-1 sm:mb-2">Secure Connection</h4>
+                <p className="text-gray-400 text-[10px] sm:text-xs leading-relaxed">
                   Your login is protected with 256-bit encryption. We never store your password in plain text and all communications are encrypted end-to-end.
                 </p>
               </div>
@@ -229,6 +246,21 @@ const LoginPage: React.FC = () => {
           </div>
         </form>
       </div>
+      
+      {showAgeVerification && pendingGoogleAuth && (
+        <AgeVerificationModal
+          isOpen={showAgeVerification}
+          onConfirm={() => {
+            setShowAgeVerification(false);
+            navigate('/');
+          }}
+          onCancel={() => {
+            setShowAgeVerification(false);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -166,6 +166,16 @@ export const getMyCoupons = async (): Promise<Coupon[]> => {
   return response.data;
 };
 
+export const browseCoupons = async (): Promise<Coupon[]> => {
+  const response = await api.get('/coupons/browse');
+  return response.data;
+};
+
+export const getProviderCoupons = async (providerId: number): Promise<Coupon[]> => {
+  const response = await api.get(`/coupons/provider/${providerId}`);
+  return response.data;
+};
+
 // ================================
 // Photo Verification API
 // ================================
@@ -216,6 +226,8 @@ export default {
   createCoupon,
   applyCoupon,
   getMyCoupons,
+  browseCoupons,
+  getProviderCoupons,
   // Photo Verification
   submitPhotoForVerification,
   getPendingPhotoVerifications,

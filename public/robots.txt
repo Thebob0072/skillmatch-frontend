@@ -1,0 +1,43 @@
+# robots.txt for Thai Variety Entertainment
+# https://thaivariety.app
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# High-priority pages for crawling
+Sitemap: https://thaivariety.app/sitemap.xml
+
+# Specific crawler rules
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+# Disallow admin and private sections
+Disallow: /admin/
+Disallow: /god/
+Disallow: /api/
+Disallow: /*.json$
+Disallow: /private/
+
+# Allow public pages
+Allow: /browse
+Allow: /provider/
+Allow: /register
+Allow: /login
+Allow: /pricing
+Allow: /promotions
+
+# Crawl-delay for all bots (in seconds)
+Crawl-delay: 0.5

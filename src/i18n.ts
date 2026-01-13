@@ -15,11 +15,20 @@ i18n
     },
 
     backend: {
-      loadPath: '/locales/{{lng}}/translation.json',
+        loadPath: '/locales/{{lng}}/translation.json?v=20251230v1',
+      requestOptions: {
+        cache: 'no-store',
+      },
     },
 
     ns: ['translation'],
     defaultNS: 'translation',
   });
+
+// Save language preference when it changes
+i18n.on('languageChanged', (lng) => {
+  localStorage.setItem('language', lng);
+  document.documentElement.lang = lng;
+});
 
 export default i18n;

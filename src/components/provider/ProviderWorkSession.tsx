@@ -51,7 +51,9 @@ export const ProviderWorkSession: React.FC<ProviderWorkSessionProps> = ({
       setBooking(response.data);
       setError(null);
     } catch (err) {
-      console.error('Failed to fetch booking details:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to fetch booking details');
+      }
       setError(t('work_session.error.fetch_failed'));
     } finally {
       setIsLoading(false);
@@ -72,7 +74,9 @@ export const ProviderWorkSession: React.FC<ProviderWorkSessionProps> = ({
       });
       setLastLocation({ lat: latitude, lng: longitude });
     } catch (err) {
-      console.error('Failed to update location:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to update location');
+      }
     }
   }, [bookingId]);
 
@@ -85,7 +89,9 @@ export const ProviderWorkSession: React.FC<ProviderWorkSessionProps> = ({
           updateLocation(position.coords.latitude, position.coords.longitude);
         },
         (error) => {
-          console.error('Geolocation error:', error);
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Geolocation error');
+          }
         },
         {
           enableHighAccuracy: true,

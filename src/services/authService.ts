@@ -7,11 +7,14 @@ export const login = async (credentials: LoginRequest): Promise<AuthResponse> =>
 };
 
 export const register = async (data: RegisterRequest): Promise<AuthResponse> => {
-  const response = await api.post<AuthResponse>('/register', data);
+  // Use different endpoints based on role
+  const endpoint = data.role === 'provider' ? '/register/provider' : '/register';
+  const response = await api.post<AuthResponse>(endpoint, data);
   return response.data;
 };
 
 export const googleAuth = async (request: GoogleAuthRequest): Promise<AuthResponse> => {
+  // Include role in the request body if it exists
   const response = await api.post<AuthResponse>('/auth/google', request);
   return response.data;
 };

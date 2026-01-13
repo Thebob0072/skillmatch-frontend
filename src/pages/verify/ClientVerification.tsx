@@ -12,9 +12,12 @@ import api from '../../services/api';
  */
 export function ClientVerification() {
   const { t } = useTranslation();
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, isVerified } = useAuth();
   
-  const [step, setStep] = useState<'send' | 'verify' | 'success'>('send');
+  // ถ้ายืนยันแล้ว แสดงหน้าสำเร็จตั้งแต่เริ่มต้น
+  const [step, setStep] = useState<'send' | 'verify' | 'success'>(
+    isVerified ? 'success' : 'send'
+  );
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +44,7 @@ export function ClientVerification() {
           return prev - 1;
         });
       }, 1000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.response?.data?.error || t('verification.send_error', 'Failed to send verification code'));
     } finally {
       setLoading(false);
@@ -63,29 +66,34 @@ export function ClientVerification() {
       updateUser(updatedUser);
       
       setStep('success');
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.response?.data?.error || t('verification.verify_error', 'Invalid verification code'));
     } finally {
       setLoading(false);
     }
   };
 
-  // Success state
-  if (step === 'success') {
+  // Success state - ยืนยันแล้ว
+  if (step === 'success' || isVerified) {
     return (
       <div className="bg-gradient-to-br from-green-900/30 to-green-800/20 rounded-2xl p-8 border border-green-500/30 text-center">
         <span className="text-6xl mb-4 block">✅</span>
         <h2 className="text-2xl font-bold text-green-400 mb-4">
-          {t('verification.email_verified', 'Email Verified!')}
+          ยืนยันตัวตนแล้ว
         </h2>
-        <p className="text-gray-300 mb-6">
-          {t('verification.email_verified_desc', 'Your email has been verified successfully. You now have full access to all features.')}
+        <p className="text-gray-300 mb-4">
+          อีเมลของคุณได้รับการยืนยันแล้ว คุณสามารถใช้งานทุกฟีเจอร์ได้เต็มรูปแบบ
         </p>
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/20 rounded-lg text-green-400 text-sm mb-6">
+          <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+          <span>บัญชีของคุณได้รับการรับรอง</span>
+        </div>
+        <br />
         <a 
-          href="/dashboard"
+          href="/"
           className="inline-block px-6 py-3 bg-gradient-to-r from-neon-pink to-neon-purple text-white rounded-lg font-bold hover:opacity-90 transition-opacity"
         >
-          {t('verification.go_dashboard', 'Go to Dashboard')}
+          กลับหน้าหลัก
         </a>
       </div>
     );

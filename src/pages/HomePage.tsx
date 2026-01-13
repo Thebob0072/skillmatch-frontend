@@ -83,6 +83,20 @@ const HomePage: React.FC = () => {
             </Link>
             
             <Link
+              to="/promotions"
+              className="group relative w-full sm:w-auto"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-neon-purple via-purple-600 to-neon-blue rounded-lg sm:rounded-xl lg:rounded-[2rem] blur-md sm:blur-lg lg:blur-2xl opacity-75 group-hover:opacity-100 animate-pulse" style={{animationDelay: '0.25s'}}></div>
+              <div className="relative bg-gradient-to-r from-neon-purple via-purple-500 to-neon-blue text-white font-black text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl px-6 sm:px-8 lg:px-14 py-3 sm:py-4 lg:py-7 rounded-lg sm:rounded-xl lg:rounded-[2rem] transform hover:scale-105 hover:-translate-y-1 sm:hover:-translate-y-2 transition-all duration-300 shadow-[0_0_20px_rgba(157,0,255,1)] sm:shadow-[0_0_40px_rgba(157,0,255,1)] lg:shadow-[0_0_60px_rgba(157,0,255,1)] hover:shadow-[0_0_100px_rgba(157,0,255,1)] border-2 sm:border-3 lg:border-4 border-neon-purple/80 hover:border-neon-purple overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                <span className="relative z-10 drop-shadow-[0_4px_8px_rgba(0,0,0,1)] flex items-center justify-center gap-2">
+                  <span className="text-xl sm:text-2xl lg:text-3xl">🎁</span>
+                  <span>{t('home.viewPromotions', 'View Promotions')}</span>
+                </span>
+              </div>
+            </Link>
+            
+            <Link
               to="/register"
               className="group relative w-full sm:w-auto"
             >

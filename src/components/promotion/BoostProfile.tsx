@@ -45,7 +45,7 @@ export const BoostProfile: React.FC = () => {
       setSuccess(t('boost.purchaseSuccess'));
       await fetchData();
       setTimeout(() => setSuccess(null), 3000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.response?.data?.error || t('boost.purchaseError'));
     } finally {
       setIsPurchasing(null);

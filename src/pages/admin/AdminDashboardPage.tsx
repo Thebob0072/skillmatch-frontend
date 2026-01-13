@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 export function AdminDashboardPage() {
   const { t } = useTranslation();
@@ -9,11 +10,11 @@ export function AdminDashboardPage() {
         {t('admin_dashboard_title') || 'Admin Dashboard'}
       </h1>
       
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="bg-gradient-to-br from-blue-600 to-blue-800 p-6 rounded-xl shadow-xl">
-          <h3 className="text-white text-lg mb-2">{t('admin_dashboard.total_users')}</h3>
-          <div className="text-4xl font-bold text-white">1,234</div>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <Link to="/admin/users" className="bg-gradient-to-br from-blue-600 to-blue-800 p-6 rounded-xl shadow-xl hover:scale-105 transition-transform">
+          <h3 className="text-white text-lg mb-2">👥 {t('admin_dashboard.user_management') || 'User Management'}</h3>
+          <p className="text-blue-200 text-sm">จัดการสมาชิกทั้งหมด</p>
+        </Link>
         <div className="bg-gradient-to-br from-green-600 to-green-800 p-6 rounded-xl shadow-xl">
           <h3 className="text-white text-lg mb-2">{t('admin_dashboard.active_companions')}</h3>
           <div className="text-4xl font-bold text-white">567</div>

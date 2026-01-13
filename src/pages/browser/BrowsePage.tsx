@@ -64,7 +64,9 @@ export function BrowsePage() {
       
       setProviders(data.data || []);
     } catch (error) {
-      console.error('Failed to load providers:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to load providers');
+      }
       setError(t('common.error'));
       setProviders([]);
     } finally {
@@ -100,9 +102,9 @@ export function BrowsePage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="text-center mb-12">
-        <h1 className="text-6xl md:text-7xl font-black mb-4">
+    <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-12">
+      <div className="text-center mb-6 sm:mb-12">
+        <h1 className="text-3xl sm:text-6xl md:text-7xl font-black mb-2 sm:mb-4">
           <span style={{
             background: 'linear-gradient(to right, #ff10f0, #9d00ff, #ffd700)',
             WebkitBackgroundClip: 'text',
@@ -114,13 +116,13 @@ export function BrowsePage() {
             {t('browse_title') || 'Browse Premium Companions'}
           </span>
         </h1>
-        <p className="text-gray-300 text-xl" style={{textShadow: '0 2px 10px rgba(0,0,0,0.8)'}}>
+        <p className="text-gray-300 text-sm sm:text-xl" style={{textShadow: '0 2px 10px rgba(0,0,0,0.8)'}}>
           {t('browse_subtitle') || 'Verified elite companions for unforgettable experiences'}
         </p>
       </div>
       
       {/* Search Bar */}
-      <div className="max-w-6xl mx-auto mb-8">
+      <div className="max-w-6xl mx-auto mb-4 sm:mb-8">
         <div className="relative">
           <input
             type="text"
@@ -128,11 +130,11 @@ export function BrowsePage() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-            className="w-full px-8 py-5 bg-black/50 backdrop-blur-xl text-white text-lg rounded-full border-2 border-neon-purple/30 focus:border-neon-purple focus:outline-none focus:shadow-[0_0_40px_rgba(157,0,255,0.4)] transition-all duration-300 placeholder-gray-500"
+            className="w-full px-4 py-3 sm:px-8 sm:py-5 pr-24 sm:pr-32 bg-black/50 backdrop-blur-xl text-white text-sm sm:text-lg rounded-full border-2 border-neon-purple/30 focus:border-neon-purple focus:outline-none focus:shadow-[0_0_40px_rgba(157,0,255,0.4)] transition-all duration-300 placeholder-gray-500"
           />
           <button
             onClick={handleSearch}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-neon-purple to-neon-pink px-6 py-2.5 rounded-full text-white font-bold hover:scale-105 transition-all"
+            className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-neon-purple to-neon-pink px-3 py-1.5 sm:px-6 sm:py-2.5 rounded-full text-white text-xs sm:text-base font-bold active:scale-95 sm:hover:scale-105 transition-all"
           >
             🔍 Search
           </button>
@@ -140,29 +142,29 @@ export function BrowsePage() {
       </div>
 
       {/* Filters */}
-      <div className="max-w-6xl mx-auto mb-8">
+      <div className="max-w-6xl mx-auto mb-4 sm:mb-8">
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="mb-4 px-6 py-3 bg-gradient-to-r from-neon-purple/20 to-neon-pink/20 backdrop-blur-xl border-2 border-neon-purple/30 rounded-xl text-white font-bold hover:scale-105 transition-all flex items-center gap-2"
+          className="mb-3 sm:mb-4 px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-neon-purple/20 to-neon-pink/20 backdrop-blur-xl border-2 border-neon-purple/30 rounded-lg sm:rounded-xl text-white text-sm sm:text-base font-bold active:scale-95 sm:hover:scale-105 transition-all flex items-center gap-2"
         >
           <span>🎛️</span>
           {showFilters ? t('common.hide_filters') : t('common.show_filters')}
-          <span className="text-xs bg-neon-gold/30 px-2 py-1 rounded-full">
+          <span className="text-[10px] sm:text-xs bg-neon-gold/30 px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full">
             {[selectedCategory, selectedProvince, minRating > 0, selectedTier].filter(Boolean).length}
           </span>
         </button>
 
         {showFilters && (
-          <div className="bg-black/50 backdrop-blur-2xl border-2 border-neon-purple/30 rounded-2xl p-6 space-y-4">
+          <div className="bg-black/50 backdrop-blur-2xl border border-neon-purple/30 sm:border-2 rounded-xl sm:rounded-2xl p-3 sm:p-6 space-y-3 sm:space-y-4">
             {/* Location Filters - Always Visible */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               {/* Province Filter */}
               <div>
-                <label className="block text-sm font-bold text-gray-300 mb-2">📍 {t('location.province')}</label>
+                <label className="block text-xs sm:text-sm font-bold text-gray-300 mb-1.5 sm:mb-2">📍 {t('location.province')}</label>
                 <select
                   value={selectedProvince}
                   onChange={(e) => setSelectedProvince(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-black/50 border-2 border-neon-purple/30 rounded-xl text-white focus:outline-none focus:border-neon-purple"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-2.5 bg-black/50 border-2 border-neon-purple/30 rounded-lg sm:rounded-xl text-sm sm:text-base text-white focus:outline-none focus:border-neon-purple"
                 >
                   <option value="">{t('browse.filters.all_locations')}</option>
                   {(i18n.language === 'th' ? getAllProvincesInThai() : getAllProvinces()).map((province, index) => {
@@ -174,12 +176,12 @@ export function BrowsePage() {
 
               {/* District Filter */}
               <div>
-                <label className="block text-sm font-bold text-gray-300 mb-2">🏙️ {t('location.district')}</label>
+                <label className="block text-xs sm:text-sm font-bold text-gray-300 mb-1.5 sm:mb-2">🏙️ {t('location.district')}</label>
                 <select
                   value={selectedDistrict}
                   onChange={(e) => setSelectedDistrict(e.target.value)}
                   disabled={!selectedProvince || availableDistricts.length === 0}
-                  className="w-full px-4 py-2.5 bg-black/50 border-2 border-neon-purple/30 rounded-xl text-white focus:outline-none focus:border-neon-purple disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-2.5 bg-black/50 border-2 border-neon-purple/30 rounded-lg sm:rounded-xl text-sm sm:text-base text-white focus:outline-none focus:border-neon-purple disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <option value="">{t('location.all_districts')}</option>
                   {(i18n.language === 'th' && selectedProvince
@@ -196,15 +198,15 @@ export function BrowsePage() {
             </div>
 
             {/* Other Filters */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
 
               {/* Service Type Filter */}
               <div>
-                <label className="block text-sm font-bold text-gray-300 mb-2">🏠 {t('service_type.label')}</label>
+                <label className="block text-xs sm:text-sm font-bold text-gray-300 mb-1.5 sm:mb-2">🏠 {t('service_type.label')}</label>
                 <select
                   value={selectedServiceType}
                   onChange={(e) => setSelectedServiceType(e.target.value as 'Incall' | 'Outcall' | 'Both' | '')}
-                  className="w-full px-4 py-2.5 bg-black/50 border-2 border-neon-purple/30 rounded-xl text-white focus:outline-none focus:border-neon-purple"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-2.5 bg-black/50 border-2 border-neon-purple/30 rounded-lg sm:rounded-xl text-sm sm:text-base text-white focus:outline-none focus:border-neon-purple"
                 >
                   <option value="">{t('service_type.all')}</option>
                   <option value="Incall">{t('service_type.incall')}</option>
@@ -215,11 +217,11 @@ export function BrowsePage() {
 
               {/* Rating Filter */}
               <div>
-                <label className="block text-sm font-bold text-gray-300 mb-2">⭐ {t('browse.filters.min_rating')}</label>
+                <label className="block text-xs sm:text-sm font-bold text-gray-300 mb-1.5 sm:mb-2">⭐ {t('browse.filters.min_rating')}</label>
                 <select
                   value={minRating}
                   onChange={(e) => setMinRating(Number(e.target.value))}
-                  className="w-full px-4 py-2.5 bg-black/50 border-2 border-neon-purple/30 rounded-xl text-white focus:outline-none focus:border-neon-purple"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-2.5 bg-black/50 border-2 border-neon-purple/30 rounded-lg sm:rounded-xl text-sm sm:text-base text-white focus:outline-none focus:border-neon-purple"
                 >
                   <option value="0">{t('browse.filters.all_ratings')}</option>
                   <option value="3">{t('browse.filters.rating_3plus')}</option>
@@ -230,11 +232,11 @@ export function BrowsePage() {
 
               {/* Tier Filter */}
               <div>
-                <label className="block text-sm font-bold text-gray-300 mb-2">💎 {t('browse.filters.tier')}</label>
+                <label className="block text-xs sm:text-sm font-bold text-gray-300 mb-1.5 sm:mb-2">💎 {t('browse.filters.tier')}</label>
                 <select
                   value={selectedTier || ''}
                   onChange={(e) => setSelectedTier(e.target.value ? Number(e.target.value) : null)}
-                  className="w-full px-4 py-2.5 bg-black/50 border-2 border-neon-purple/30 rounded-xl text-white focus:outline-none focus:border-neon-purple"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-2.5 bg-black/50 border-2 border-neon-purple/30 rounded-lg sm:rounded-xl text-sm sm:text-base text-white focus:outline-none focus:border-neon-purple"
                 >
                   <option value="">{t('browse.filters.all_tiers')}</option>
                   <option value="1">{t('tier.general')}</option>
@@ -247,11 +249,11 @@ export function BrowsePage() {
 
               {/* Sort By */}
               <div>
-                <label className="block text-sm font-bold text-gray-300 mb-2">🔢 {t('browse.filters.sort_by')}</label>
+                <label className="block text-xs sm:text-sm font-bold text-gray-300 mb-1.5 sm:mb-2">🔢 {t('browse.filters.sort_by')}</label>
                 <select
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as any)}
-                  className="w-full px-4 py-2.5 bg-black/50 border-2 border-neon-purple/30 rounded-xl text-white focus:outline-none focus:border-neon-purple"
+                  onChange={(e) => setSortBy(e.target.value as 'rating' | 'reviews' | 'distance')}
+                  className="w-full px-3 py-2 sm:px-4 sm:py-2.5 bg-black/50 border-2 border-neon-purple/30 rounded-lg sm:rounded-xl text-sm sm:text-base text-white focus:outline-none focus:border-neon-purple"
                 >
                   <option value="rating">{t('browse.filters.highest_rating')}</option>
                   <option value="reviews">{t('browse.filters.most_reviews')}</option>
@@ -262,11 +264,11 @@ export function BrowsePage() {
 
             {/* Category Pills */}
             <div>
-              <label className="block text-sm font-bold text-gray-300 mb-2">🎭 {t('browse.filters.category')}</label>
+              <label className="block text-xs sm:text-sm font-bold text-gray-300 mb-1.5 sm:mb-2">🎭 {t('browse.filters.category')}</label>
               <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => setSelectedCategory(null)}
-                  className={`px-4 py-2 rounded-full font-bold transition-all ${
+                  className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-bold transition-all ${
                     selectedCategory === null
                       ? 'bg-gradient-to-r from-neon-purple to-neon-pink text-white'
                       : 'bg-black/30 text-gray-400 hover:bg-black/50'
@@ -285,7 +287,7 @@ export function BrowsePage() {
                   <button
                     key={cat.id}
                     onClick={() => setSelectedCategory(cat.id)}
-                    className={`px-4 py-2 rounded-full font-bold transition-all ${
+                    className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-bold transition-all ${
                       selectedCategory === cat.id
                         ? 'bg-gradient-to-r from-neon-purple to-neon-pink text-white'
                         : 'bg-black/30 text-gray-400 hover:bg-black/50'
@@ -301,7 +303,7 @@ export function BrowsePage() {
             <div className="flex justify-end">
               <button
                 onClick={clearFilters}
-                className="px-6 py-2 bg-red-500/20 border border-red-500/30 text-red-400 rounded-xl font-bold hover:bg-red-500/30 transition-all"
+                className="px-4 py-1.5 sm:px-6 sm:py-2 bg-red-500/20 border border-red-500/30 text-red-400 text-xs sm:text-base rounded-lg sm:rounded-xl font-bold hover:bg-red-500/30 active:scale-95 transition-all"
               >
                 🗑️ {t('browse.filters.clear_all')}
               </button>

@@ -25,9 +25,11 @@ export function useWallet() {
       if (response.success && response.data) {
         setWallet(response.data);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.response?.data?.message || 'Failed to fetch wallet');
-      console.error('Error fetching wallet:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error fetching wallet');
+      }
     } finally {
       setLoading(false);
     }
@@ -62,9 +64,11 @@ export function useBankAccounts() {
       if (response.success && response.data) {
         setAccounts(response.data);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.response?.data?.message || 'Failed to fetch bank accounts');
-      console.error('Error fetching bank accounts:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error fetching bank accounts');
+      }
     } finally {
       setLoading(false);
     }
@@ -77,7 +81,7 @@ export function useBankAccounts() {
         await fetchAccounts();
         return response.data;
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw new Error(err.response?.data?.message || 'Failed to add bank account');
     }
   }, [fetchAccounts]);
@@ -88,7 +92,7 @@ export function useBankAccounts() {
       if (response.success) {
         await fetchAccounts();
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw new Error(err.response?.data?.message || 'Failed to delete bank account');
     }
   }, [fetchAccounts]);
@@ -99,7 +103,7 @@ export function useBankAccounts() {
       if (response.success) {
         await fetchAccounts();
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw new Error(err.response?.data?.message || 'Failed to set default account');
     }
   }, [fetchAccounts]);
@@ -136,9 +140,11 @@ export function useWithdrawals() {
       if (response.success && response.data) {
         setWithdrawals(response.data);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.response?.data?.message || 'Failed to fetch withdrawals');
-      console.error('Error fetching withdrawals:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error fetching withdrawals');
+      }
     } finally {
       setLoading(false);
     }
@@ -151,7 +157,7 @@ export function useWithdrawals() {
         await fetchWithdrawals();
         return response.data;
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw new Error(err.response?.data?.message || 'Failed to request withdrawal');
     }
   }, [fetchWithdrawals]);
@@ -162,7 +168,7 @@ export function useWithdrawals() {
       if (response.success) {
         await fetchWithdrawals();
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw new Error(err.response?.data?.message || 'Failed to cancel withdrawal');
     }
   }, [fetchWithdrawals]);
@@ -202,9 +208,11 @@ export function useTransactions(page: number = 1, limit: number = 20) {
         setTotal(response.data.total);
         setHasMore(response.data.has_more);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.response?.data?.message || 'Failed to fetch transactions');
-      console.error('Error fetching transactions:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error fetching transactions');
+      }
     } finally {
       setLoading(false);
     }
@@ -246,9 +254,11 @@ export function useAdminWithdrawals(status?: string) {
         const items = Array.isArray(response.data) ? response.data : response.data.items;
         setWithdrawals(items);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.response?.data?.message || 'Failed to fetch withdrawals');
-      console.error('Error fetching admin withdrawals:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error fetching admin withdrawals');
+      }
     } finally {
       setLoading(false);
     }
@@ -268,7 +278,7 @@ export function useAdminWithdrawals(status?: string) {
         await fetchWithdrawals();
         return response.data;
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw new Error(err.response?.data?.message || 'Failed to process withdrawal');
     }
   }, [fetchWithdrawals]);
@@ -303,9 +313,11 @@ export function useFinancialSummary() {
       if (response.success && response.data) {
         setSummary(response.data);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.response?.data?.message || 'Failed to fetch financial summary');
-      console.error('Error fetching financial summary:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error fetching financial summary');
+      }
     } finally {
       setLoading(false);
     }

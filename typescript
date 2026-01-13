@@ -1,0 +1,205 @@
+Script started on Wed Dec 24 15:50:52 2025
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004hsssh root@thaivariety.app "cd /root/skillmatch- [Kaapi-backend && cp .env .env.backup && sed -i 's|GOOGLE_CLIENT_ID=.*|GOOGLE_CLIENT_ID=171089 [K4417301-each0gvj9d5l38bgkklu0n36p5eo5eau.apps.googleusercontent.com|' .env && echo 'Client I [KDD updated!'"[?2004l
+Client ID updated!
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004hccat << 'EOF'[?2004l
+[0m[27m[24m[Jheredoc> [K[?2004h📝 ขขัขั้นตอนตต่อไป:[?2004l
+[0m[27m[24m[Jheredoc> [K[?2004h[?2004l
+[0m[27m[24m[Jheredoc> [K[?2004h11. ไปททีที่ Google Cloud Console (หนน้าททีที่เปปิดอยยูยู่)[?2004l
+[0m[27m[24m[Jheredoc> [K[?2004h22. คลลิกททีที่ Client ID ของคคุณ[?2004l
+[0m[27m[24m[Jheredoc> [K[?2004h33. หา "Client secret" และคคัดลอก[?2004l
+[0m[27m[24m[Jheredoc> [K[?2004h44. แทนททีที่ YOUR_SECRET_HERE ในคำสสัสั่งดด้านลล่าง แลล้ววาง:[?2004l
+[0m[27m[24m[Jheredoc> [K[?2004h[?2004l
+[0m[27m[24m[Jheredoc> [K[?2004hsssh root@thaivariety.app "sed -i 's|GOOGLE_CLIENT_SECRET=.*|GOOGLE_CLIENT_SECRET=Y [KOOUR_SECRET_HERE|' /root/skillmatch-api-backend/.env && docker stop skillmatch_backend_prod  [K&&& docker rm skillmatch_backend_prod && docker run -d --name skillmatch_backend_prod --netw [Koork skillmatch_skillmatch_network -p 8080:8080 --env-file /root/skillmatch-api-backend/.env [K  skillmatch-backend:simple"[?2004l
+[0m[27m[24m[Jheredoc> [K[?2004h[?2004l
+[0m[27m[24m[Jheredoc> [K[?2004hหหรหรือพพิมพพ์ Client Secret ตรงนนีนี้แลล้วจะชช่วยรรันใหห้:[?2004l
+[0m[27m[24m[Jheredoc> [K[?2004hEEOF[?2004l
+📝 ขั้นตอนต่อไป:
+
+1. ไปที่ Google Cloud Console (หน้าที่เปิดอยู่)
+2. คลิกที่ Client ID ของคุณ
+3. หา "Client secret" และคัดลอก
+4. แทนที่ YOUR_SECRET_HERE ในคำสั่งด้านล่าง แล้ววาง:
+
+ssh root@thaivariety.app "sed -i 's|GOOGLE_CLIENT_SECRET=.*|GOOGLE_CLIENT_SECRET=YOUR_SECRET_HERE|' /root/skillmatch-api-backend/.env && docker stop skillmatch_backend_prod && docker rm skillmatch_backend_prod && docker run -d --name skillmatch_backend_prod --network skillmatch_skillmatch_network -p 8080:8080 --env-file /root/skillmatch-api-backend/.env skillmatch-backend:simple"
+
+หรือพิมพ์ Client Secret ตรงนี้แล้วจะช่วยรันให้:
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004hsssh root@thaivariety.app "sed -i 's|GOOGLE_CLI [KEENT_SECRET=.*|GOOGLE_CLIENT_SECRET=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|' /root/skillmatch-a [Kppi-backend/.env && echo '✅ Client Secret updated!' && cat /root/skillmatch-api-backend/.en [Kvv | grep GOOGLE"[?2004l
+✅ Client Secret updated!
+# GOOGLE OAUTH 2.0 (PRODUCTION)
+GOOGLE_CLIENT_ID=171089417301-each0gvj9d5l38bgkklu0n36p5eo5eau.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=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
+GOOGLE_REDIRECT_URL=https://yourdomain.com/auth/google/callback
+# GOOGLE CLOUD STORAGE (GCS)
+GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account-key.json
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004hsssh root@thaivariety.app "docker stop skillmat [Kcch_backend_prod && docker rm skillmatch_backend_prod && docker run -d --name skillmatch_bac [Kkkend_prod --network skillmatch_skillmatch_network -p 8080:8080 --env-file /root/skillmatch- [Kaapi-backend/.env skillmatch-backend:simple && sleep 5 && docker logs skillmatch_backend_pro [Kdd --tail 20"[?2004l
+skillmatch_backend_prod
+skillmatch_backend_prod
+106d382d3427586635f2d95159ac80ac46f4f30a2785b919f5664328234f3c69
+🔄 Running Migration 028: Reports System...
+✅ Migration 028: Reports System completed!
+🔄 Running Migration 029: Financial System...
+✅ Migration 029: Financial System completed!
+🔄 Running Migration 030: Provider Documents...
+✅ Migration 030: Provider Documents completed!
+🔄 Running Migration 031: Provider Tier History...
+✅ Migration 031: Provider Tier History completed!
+🔄 Running Migration 031B: Provider Tier Upgrade Requests...
+✅ Migration 031B: Provider Tier Upgrade Requests completed!
+🔄 Running Migration 032: Fix Service Categories Schema...
+✅ Migration 032: Fix Service Categories Schema completed!
+🔄 Running Migration 033: Add profile_picture_url to users...
+✅ Migration 033: Add profile_picture_url completed!
+🔄 Running Migration 034: Safety & Business Features...
+🔄 Running Migration 035: Payments Table...
+✅ Migration 035: Payments Table completed!
+✅ All Database Migrations สำเร็จ!
+2025/12/24 09:11:45 ⚠️  Could not read migration 034 file: open docs/sql-migrations/034_safety_business_features.sql: no such file or directory
+🚀 เซิร์ฟเวอร์กำลังทำงานที่ http://localhost:8080
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004hsssh root@thaivariety.app "docker logs skillmat [Kcch_backend_prod --tail 30"[?2004l
+🔄 Running Migration 023: Service Categories...
+✅ Migration 023: Service Categories completed!
+🔄 Running Migration 024: Provider Categories...
+✅ Migration 024: Provider Categories completed!
+🔄 Running Migration 025: Messaging System...
+✅ Migration 025: Messaging System completed!
+🔄 Running Migration 026: Notifications...
+✅ Migration 026: Notifications completed!
+🔄 Running Migration 027: Blocks System...
+✅ Migration 027: Blocks System completed!
+🔄 Running Migration 028: Reports System...
+✅ Migration 028: Reports System completed!
+🔄 Running Migration 029: Financial System...
+✅ Migration 029: Financial System completed!
+🔄 Running Migration 030: Provider Documents...
+✅ Migration 030: Provider Documents completed!
+🔄 Running Migration 031: Provider Tier History...
+✅ Migration 031: Provider Tier History completed!
+🔄 Running Migration 031B: Provider Tier Upgrade Requests...
+✅ Migration 031B: Provider Tier Upgrade Requests completed!
+🔄 Running Migration 032: Fix Service Categories Schema...
+✅ Migration 032: Fix Service Categories Schema completed!
+🔄 Running Migration 033: Add profile_picture_url to users...
+✅ Migration 033: Add profile_picture_url completed!
+🔄 Running Migration 034: Safety & Business Features...
+🔄 Running Migration 035: Payments Table...
+✅ Migration 035: Payments Table completed!
+✅ All Database Migrations สำเร็จ!
+🚀 เซิร์ฟเวอร์กำลังทำงานที่ http://localhost:8080
+2025/12/24 09:11:45 ⚠️  Could not read migration 034 file: open docs/sql-migrations/034_safety_business_features.sql: no such file or directory
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004hccurl -s https://thaivariety.app/api/health | j [Kqq .[?2004l
+[1;39m{
+  [0m[1;34m"status"[0m[1;39m: [0m[0;32m"unhealthy"[0m[1;39m,
+  [0m[1;34m"timestamp"[0m[1;39m: [0m[0;32m"2025-12-24T09:12:12.697515206Z"[0m[1;39m,
+  [0m[1;34m"services"[0m[1;39m: [0m[1;39m{
+    [0m[1;34m"db_pool"[0m[1;39m: [0m[0;32m"up"[0m[1;39m,
+    [0m[1;34m"postgres"[0m[1;39m: [0m[0;32m"up"[0m[1;39m,
+    [0m[1;34m"redis"[0m[1;39m: [0m[0;32m"down"[0m[1;39m
+  [1;39m}[0m[1;39m,
+  [0m[1;34m"version"[0m[1;39m: [0m[0;32m"1.0.0"[0m[1;39m
+[1;39m}[0m
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004hsssh root@thaivariety.app "docker exec skillmat [Kcch_backend_prod printenv | grep GOOGLE"[?2004l
+GOOGLE_CLIENT_ID=171089417301-each0gvj9d5l38bgkklu0n36p5eo5eau.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=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
+GOOGLE_REDIRECT_URL=https://yourdomain.com/auth/google/callback
+GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account-key.json
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004hnnpm run build[?2004l
+
+> skillmatch-frontend@0.0.0 build
+> tsc -b && vite build
+
+[1G[0K[36mvite v6.4.1 [32mbuilding for production...[36m[39m
+[2K[1Gtransforming (1) [2msrc/main.tsx[22m[2K[1Gtransforming (12) [2m../node_modules/react/index.js[22m[2K[1G[2K[1Gtransforming (46) [2m../node_modules/react-router/dist/development/index.mjs[22m[2K[1G[2K[1Gtransforming (101) [2m../node_modules/axios/lib/core/dispatchRequest.js[22m[2K[1G[2K[1Gtransforming (167) [2msrc/components/Navbar.tsx[22m[2K[1Gtransforming (200) [2msrc/components/ProfileDropdown.tsx[22m[2K[1G[32m✓[39m 215 modules transformed.
+[2K[1Grendering chunks (1)...[2K[1Grendering chunks (2)...[2K[1G[2K[1Gcomputing gzip size (0)...[2K[1Gcomputing gzip size (1)...[2K[1Gcomputing gzip size (2)...[2K[1Gcomputing gzip size (3)...[2K[1Gcomputing gzip size (4)...[2K[1G[2mdist/[22m[32mindex.html                           [39m[1m[2m  7.19 kB[22m[1m[22m[2m │ gzip:   2.28 kB[22m
+[2mdist/[22m[2massets/[22m[35mindex-Cj6E6hsU.css            [39m[1m[2m181.93 kB[22m[1m[22m[2m │ gzip:  19.65 kB[22m
+[2mdist/[22m[2massets/[22m[36mbrowser-ponyfill-CXMELsLE.js  [39m[1m[2m 10.30 kB[22m[1m[22m[2m │ gzip:   3.52 kB[22m
+[2mdist/[22m[2massets/[22m[36mindex-BBIN3-ho.js             [39m[1m[33m772.52 kB[39m[22m[2m │ gzip: 195.38 kB[22m
+[33m
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+[32m✓ built in 1.56s[39m
+[1G[0K⠙[1G[0K[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004hssleep 3 && echo "Build completed"[?2004l
+Build completed
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004hssleep 5 && ls -la dist/ | head -10[?2004l
+total 1704
+drwxr-xr-x@  9 audi  staff     288 Dec 24 16:52 .
+drwxr-xr-x@ 42 audi  staff    1344 Dec 24 15:50 ..
+drwxr-xr-x@  5 audi  staff     160 Dec 24 16:52 assets
+-rw-r--r--@  1 audi  staff    3208 Dec 24 16:52 generate-og-image.html
+-rw-r--r--@  1 audi  staff    7187 Dec 24 16:52 index.html
+drwxr-xr-x@  5 audi  staff     160 Dec 24 16:52 locales
+-rw-r--r--@  1 audi  staff  851430 Dec 24 16:52 og-image.png
+-rw-r--r--@  1 audi  staff    3098 Dec 24 16:52 og-image.svg
+-rw-r--r--@  1 audi  staff    1497 Dec 24 16:52 vite.svg
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004hssleep 8 && ls -la /Users/audi/Desktop/full/sex [Kpproject/skillmatch-frontend/dist/[?2004l
+total 1704
+drwxr-xr-x@  9 audi  staff     288 Dec 24 16:52 .
+drwxr-xr-x@ 42 audi  staff    1344 Dec 24 15:50 ..
+drwxr-xr-x@  5 audi  staff     160 Dec 24 16:52 assets
+-rw-r--r--@  1 audi  staff    3208 Dec 24 16:52 generate-og-image.html
+-rw-r--r--@  1 audi  staff    7187 Dec 24 16:52 index.html
+drwxr-xr-x@  5 audi  staff     160 Dec 24 16:52 locales
+-rw-r--r--@  1 audi  staff  851430 Dec 24 16:52 og-image.png
+-rw-r--r--@  1 audi  staff    3098 Dec 24 16:52 og-image.svg
+-rw-r--r--@  1 audi  staff    1497 Dec 24 16:52 vite.svg
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004hssleep 10[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004hlls -lh /Users/audi/Desktop/full/sexproject/ski [Klllmatch-frontend/dist/index.html 2>/dev/null && echo "✅ Build complete!" || echo "⏳ Still [K  building..."[?2004l
+[0m[27m[24m[Jcmdand dquote> [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004hssleep 15 && find /Users/audi/Desktop/full/sexp [Krroject/skillmatch-frontend/dist -name "index.html" -exec ls -lh {} \;[?2004l
+-rw-r--r--@ 1 audi  staff   7.0K Dec 24 16:52 /Users/audi/Desktop/full/sexproject/skillmatch-frontend/dist/index.html
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004hppwd && sleep 20[?2004l
+/Users/audi/Desktop/full/sexproject/skillmatch-frontend
+^C
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004httest -f dist/index.html && echo "Build ready!" [K  && ls -lh dist/index.html || echo "Build not found"[?2004l
+[0m[27m[24m[Jcmdand dquote> [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004hlls dist/ 2>&1 | head -5[?2004l
+assets
+generate-og-image.html
+index.html
+locales
+og-image.png
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004hrrsync -avz --delete dist/ root@thaivariety.app [K::/var/www/frontend/[?2004l
+Transfer starting: 23 files
+./
+generate-og-image.html
+index.html
+og-image.png
+og-image.svg
+vite.svg
+assets/
+assets/browser-ponyfill-CXMELsLE.js
+assets/index-BBIN3-ho.js
+assets/index-Cj6E6hsU.css
+locales/
+locales/en/
+locales/en/booking.json
+locales/en/common.json
+locales/en/translation.json
+locales/th/
+locales/th/booking.json
+locales/th/common.json
+locales/th/translation.json
+locales/zh/
+locales/zh/booking.json
+locales/zh/common.json
+locales/zh/translation.json
+
+sent 15217 bytes  received 15130 bytes  180529 bytes/sec
+total size is 2066651  speedup is 68.10
+[1m[7m%[27m[1m[0m                                                                                           [0m[27m[24m[Jaudi@Audis-MacBook-Air skillmatch-frontend % [K[?2004h

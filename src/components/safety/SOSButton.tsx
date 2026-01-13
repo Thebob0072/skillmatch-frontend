@@ -59,7 +59,9 @@ export const SOSButton: React.FC<SOSButtonProps> = ({
       setTimeout(() => setIsSent(false), 30000);
 
     } catch (err) {
-      console.error('SOS Error:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('SOS Error');
+      }
       setError(err instanceof GeolocationPositionError 
         ? t('safety.sos.locationError')
         : t('safety.sos.sendError'));

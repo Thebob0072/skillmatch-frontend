@@ -6,6 +6,8 @@ export interface User {
   full_name: string | null;
   profile_picture_url: string | null;
   role: 'client' | 'provider' | 'admin' | 'god';
+  user_type?: 'client' | 'provider' | 'admin' | 'god';
+  is_admin?: boolean;
   tier_id: number | null;
   tier_name: string | null;
   google_id: string | null;
@@ -48,6 +50,7 @@ export interface RegisterRequest {
 
 export interface GoogleAuthRequest {
   code: string;
+  role?: string; // Optional: 'client' or 'provider'
 }
 
 // Provider Types

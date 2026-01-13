@@ -1,0 +1,79 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient Background -->
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff10f0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#6b21a8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e1b4b;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#grad1)"/>
+  
+  <!-- Decorative elements -->
+  <circle cx="100" cy="100" r="60" fill="#ff10f0" opacity="0.1"/>
+  <circle cx="1100" cy="530" r="80" fill="#ec4899" opacity="0.1"/>
+  <circle cx="950" cy="150" r="40" fill="#ffffff" opacity="0.05"/>
+  
+  <!-- Logo Icon -->
+  <text x="600" y="180" font-size="120" text-anchor="middle" fill="#ffffff" filter="url(#glow)">💋</text>
+  
+  <!-- Main Title -->
+  <text x="600" y="280" font-size="56" font-weight="bold" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif">
+    Thai Variety Entertainment
+  </text>
+  
+  <!-- Subtitle English -->
+  <text x="600" y="340" font-size="32" text-anchor="middle" fill="#fde047" font-family="Arial, sans-serif">
+    Premium Booking Platform
+  </text>
+  
+  <!-- Cities -->
+  <g>
+    <text x="220" y="430" font-size="24" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-weight="500">
+      🏙️ Bangkok
+    </text>
+    <text x="440" y="430" font-size="24" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-weight="500">
+      🏖️ Phuket
+    </text>
+    <text x="660" y="430" font-size="24" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-weight="500">
+      🌴 Pattaya
+    </text>
+    <text x="920" y="430" font-size="24" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-weight="500">
+      ⛰️ Chiang Mai
+    </text>
+  </g>
+  
+  <!-- Features -->
+  <g opacity="0.9">
+    <text x="300" y="500" font-size="20" text-anchor="middle" fill="#fde047" font-family="Arial, sans-serif">
+      ✓ Verified Providers
+    </text>
+    <text x="600" y="500" font-size="20" text-anchor="middle" fill="#fde047" font-family="Arial, sans-serif">
+      ✓ Safe Booking
+    </text>
+    <text x="900" y="500" font-size="20" text-anchor="middle" fill="#fde047" font-family="Arial, sans-serif">
+      ✓ 24/7 Support
+    </text>
+  </g>
+  
+  <!-- Rating -->
+  <g>
+    <text x="600" y="560" font-size="28" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif">
+      ⭐⭐⭐⭐⭐ <tspan fill="#fde047" font-size="24">4.8/5</tspan> <tspan fill="#e2e8f0" font-size="20">(1,250 reviews)</tspan>
+    </text>
+  </g>
+  
+  <!-- Website URL -->
+  <text x="600" y="605" font-size="22" text-anchor="middle" fill="#e2e8f0" font-family="Arial, sans-serif" font-weight="300">
+    thaivariety.app
+  </text>
+</svg>

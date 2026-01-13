@@ -108,11 +108,11 @@ export interface CurrentViewMode {
 
 export const godService = {
   /**
-   * Get GOD dashboard statistics (GET /admin/stats/god)
+   * Get GOD dashboard statistics (GET /god/stats)
    * Only accessible by super admin (tier_id = 5)
    */
   getStats: async (): Promise<GodStats> => {
-    const response = await api.get<GodStats>('/admin/stats/god');
+    const response = await api.get<GodStats>('/god/stats');
     return response.data;
   },
 

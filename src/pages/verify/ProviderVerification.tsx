@@ -239,7 +239,7 @@ export function ProviderVerification() {
       updateUser(updatedUser);
 
       setStep('success');
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.response?.data?.error || t('verification.error_submit', 'Failed to submit verification'));
       setStep('face_scan');
     } finally {

@@ -1,0 +1,143 @@
+{
+  "booking": {
+    "new_booking": "新预订",
+    "my_bookings": "我的预订",
+    "booking_details": "预订详情",
+    "booking_id": "预订编号",
+    "provider": "服务提供者",
+    "client": "客户",
+    "package": "套餐",
+    "date": "日期",
+    "time": "时间",
+    "datetime": "日期与时间",
+    "location": "地点",
+    "floor": "楼层",
+    "room": "房间",
+    "open_in_maps": "在谷歌地图中打开",
+    "details": "详情",
+    "service_flow": "服务流程",
+    "actions": "操作",
+    "not_found": "未找到预订",
+    
+    "status": {
+      "pending": "待处理",
+      "confirmed": "已确认",
+      "provider_arrived": "服务商已到达",
+      "in_progress": "进行中",
+      "completed": "已完成",
+      "funds_released": "款项已发放",
+      "cancelled": "已取消",
+      "disputed": "有争议",
+      "dispute_resolved": "争议已解决"
+    },
+
+    "confirm_cancel": "确定要取消此预订吗？",
+    "please_provide_reason": "请提供取消原因",
+    "booking_cancelled": "预订已成功取消",
+    "action_failed": "操作失败",
+
+    "confirm_arrived": "确认您已到达指定地点？",
+    "arrived_confirmed": "到达已确认。等待客户确认",
+    "confirm_provider_arrived": "确认服务商已到达？\n\n剩余款项将被锁定在托管账户，直到服务完成",
+    "escrow_locked": "款项已成功锁定在托管账户。服务商可以开始服务",
+    
+    "completion_notes_prompt": "请提供服务完成备注（可选）：",
+    "completion_submitted": "服务完成已记录。等待客户确认",
+    "confirm_completion": "确认您已收到服务？\n\n剩余款项将立即发放给服务商",
+    "payment_released": "款项已成功发放给服务商",
+
+    "dispute_reason_prompt": "争议原因：",
+    "dispute_description_prompt": "问题描述：",
+    "dispute_submitted": "争议已成功提交。管理员将在24-48小时内审核",
+
+    "i_arrived": "🚗 我已到达",
+    "waiting_client_confirm": "等待客户确认您的到达",
+    "service_completed": "✅ 服务已完成",
+    "waiting_client_confirm_completion": "等待客户确认服务完成",
+    "auto_release_24h": "如无争议，款项将在24小时内自动发放",
+
+    "provider_has_arrived": "服务商已到达！",
+    "please_verify_arrival": "请核实并确认服务商的到达",
+    "confirm_provider_arrived_button": "✅ 确认服务商已到达",
+    "service_in_progress": "服务进行中...",
+    "provider_completed_service": "服务商已完成服务",
+    "please_confirm_or_dispute": "如有问题请确认或提出争议",
+
+    "rate_service": "为服务评分",
+    "review": "评价",
+    "review_placeholder": "分享您对服务的想法...",
+    "confirm_and_pay": "✅ 确认并付款",
+    "dispute": "⚠️ 提出争议",
+    
+    "payment_received": "您已收到款项！",
+    "added_to_wallet": "已添加到您的钱包",
+    "completed_successfully": "已成功完成！",
+    "thank_you": "感谢您使用我们的服务",
+    
+    "dispute_under_review": "争议审核中",
+    "admin_will_review": "管理员将在24-48小时内审核并决定"
+  },
+
+  "payment": {
+    "payment_info": "付款信息",
+    "total_amount": "总金额",
+    "deposit_10": "定金（10%）",
+    "platform_fee": "平台费用",
+    "platform_fee_rate": "8% 手续费",
+    "provider_receives": "服务商收到",
+    "after_fee": "扣除手续费后",
+    "wallet": "钱包",
+    "wallet_balance": "钱包余额",
+    "add_to_wallet": "添加到钱包",
+    "withdraw_from_wallet": "从钱包提现",
+    "wallet_transaction": "钱包交易",
+    "transaction_history": "交易历史",
+    "deposit_payment": "定金支付",
+    "deposit_subtitle": "请支付10%定金以确认您的预订",
+    "remaining_after_service": "剩余（服务后）",
+    "remaining": "剩余",
+    "deposit_paid": "已支付定金",
+    "locked_in_escrow": "托管账户锁定",
+    "escrow_amount": "托管金额",
+    "deposit_not_paid": "尚未支付定金",
+    "pay_deposit": "💰 支付定金",
+
+    "scan_qr_to_pay": "扫描二维码支付",
+    "amount_to_pay": "支付金额",
+    "qr_expires_in": "二维码过期时间",
+    "qr_expired": "⏰ 二维码已过期",
+    "generate_new_qr": "🔄 生成新二维码",
+    
+    "instructions": "付款说明",
+    "step1": "打开您的手机银行应用或支持PromptPay的应用",
+    "step2": "选择"扫描二维码"",
+    "step3": "扫描上方二维码",
+    "step4": "确认金额与指定金额一致",
+    "step5": "确认转账",
+    "step6": "等待自动验证（5-10秒）",
+
+    "deposit_paid_success": "✅ 定金支付成功！",
+    
+    "why_deposit": "为什么需要定金？",
+    "deposit_reason_1": "确保服务商的承诺和认真态度",
+    "deposit_reason_2": "防止最后一刻取消",
+    "deposit_reason_3": "定金计入服务总费用",
+    "deposit_reason_4": "提前24小时以上取消可获得100%退款"
+  },
+
+  "common": {
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "confirm": "确认",
+    "cancel": "取消",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "close": "关闭",
+    "back": "返回",
+    "next": "下一步",
+    "submit": "提交",
+    "retry": "重试"
+  }
+}
